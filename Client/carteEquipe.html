@@ -1,0 +1,68 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr">
+
+    <head>
+        <title>Projet XML - Carte Equipes</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+        <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBLnaV51s-_cZ11LP4qBdPvnpeoxQBdOZ8&callback=initMap"
+                type="text/javascript"></script>
+        <link rel="stylesheet" href="bootstrap-4.0.0/dist/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+        <script src="jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+        <script src="bootstrap-4.0.0/dist/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+        <script type="text/javascript" src="carteE.js"></script>
+    </head>
+    <body onload="initialiser()">
+        <nav class="navbar navbar-toggleable-md navbar-expand-md navbar-dark bg-primary fixed-top" >
+            <!--style="margin-left: 10px; margin-right: 10px; border-radius: 10px; margin-top: 5px;"-->
+            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <a class="navbar-brand" href="#">Projet XML</a>
+            <div class="collapse navbar-collapse" id="navbarText">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item ">
+                        <a class="nav-link" href="index.html">Index</a>
+                    </li>
+                    <li class=" nav-item dropdown"><a class=" nav-link dropdown-toggle" data-toggle="dropdown" href="carteCentreRech.html">Centres de recherche <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="carteCentreRech.html#CarteCR">Carte</a></li>
+                            <li><a class="dropdown-item" href="carteCentreRech.html#InfoComplCR">Informations complémentaires</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">Équipes</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <div class="container-fluid" style="padding-top: 56px;" id="CarteE">
+            <h1 style="text-align: center;">La carte</h1>
+            <div class="row">
+               <!-- <div class="col-sm"> <!--Nom du centre : nombres equipes dans centre et nombre de personne par centre et équipe fermé
+                    <table class="table table-hover table-sm" style="text-align: center;">
+                        <thead>
+                            <tr>
+                                <th>Libellé équipe</th>
+                                <th>Nombre participants</th>
+                                <th>Date ouverture</th>
+                                <th>Fermé</th>
+                            </tr>
+                        </thead>
+                        <tbody id="contenutabE">
+                        </tbody>
+                    </table>
+                </div>-->
+                <div id="carte" style="width:auto; height:auto;"  ></div><!--class="col-sm"-->
+            </div>
+        </div>
+        <div class="bg-info text-light" >
+            <h1 style="text-align: center; margin-top: 10px" id="InfoComplE">Équipe</h1>
+            <div class="container-fluid" >
+                <div class="row" id="contenuIComplE">
+                    
+                </div> 
+            </div>
+        </div>
+    </body>
+</html>

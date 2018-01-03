@@ -1,0 +1,450 @@
+[
+   {
+      "@siid": "CR0001I",
+      "numnatstructrep": "200818243Z",
+      "date_ouverture": "01/01/2008",
+      "date_fermeture": [],
+      "sigle": "BSO",
+      "libelle": "CRI Bordeaux - Sud-Ouest",
+      "idgef": "9",
+      "adressegeographique": {
+         "@siid": "AD0001N",
+         "libelle": "CRI Bordeaux",
+         "cri": {
+            "@siid": "CR0001I",
+            "#text": "BSO"
+         },
+         "ville": "Talence Cedex",
+         "adresse": "200, avenue de la Vieille Tour",
+         "cp": "33400",
+         "latitude": "44.808114",
+         "longitude": "-0.602171"
+      },
+      "responsable": [
+         {
+            "@fonction": "dcr",
+            "personne": {
+               "@gefid": "nrous00A",
+               "nom": "Roussel",
+               "prenom": "Nicolas"
+            }
+         },
+         {
+            "@fonction": "ds",
+            "personne": {
+               "@gefid": "engez00A",
+               "nom": "Enge",
+               "prenom": "Andreas"
+            }
+         },
+         {
+            "@fonction": "da",
+            "personne": {
+               "@gefid": "00006D7G",
+               "nom": "Salles",
+               "prenom": "Dominique"
+            }
+         },
+         {
+            "@fonction": "vpcp",
+            "personne": {
+               "@gefid": "falex00B",
+               "nom": "Alexandre",
+               "prenom": "Frederic"
+            }
+         }
+      ]
+   },
+   {
+      "@siid": "CR0002O",
+      "numnatstructrep": "199218244V",
+      "date_ouverture": "01/01/1992",
+      "date_fermeture": [],
+      "sigle": "GRA",
+      "libelle": "CRI Grenoble - Rhône-Alpes",
+      "idgef": "7",
+      "adressegeographique": {
+         "@siid": "AD0003V",
+         "libelle": "CRI Grenoble",
+         "cri": {
+            "@siid": "CR0002O",
+            "#text": "GRA"
+         },
+         "ville": "Montbonnot St Martin",
+         "adresse": "655 avenue de l'Europe Montbonnot - CS 90051",
+         "cp": "38334",
+         "latitude": "45.217692",
+         "longitude": "5.8076"
+      },
+      "responsable": [
+         {
+            "@fonction": "dcr",
+            "personne": {
+               "@gefid": "pgros00D",
+               "nom": "Gros",
+               "prenom": "Patrick"
+            }
+         },
+         {
+            "@fonction": "ds",
+            "personne": {
+               "@gefid": "stefa00C",
+               "nom": "Stefani",
+               "prenom": "Jean-Bernard"
+            }
+         },
+         {
+            "@fonction": "da",
+            "personne": {
+               "@gefid": "amiel00E",
+               "nom": "Cellier",
+               "prenom": "Muriel"
+            }
+         },
+         {
+            "@fonction": "vpcp",
+            "personne": {
+               "@gefid": "gorce00C",
+               "nom": "Gorce",
+               "prenom": "Jean Marie"
+            }
+         }
+      ]
+   },
+   {
+      "@siid": "CR0003O",
+      "numnatstructrep": "200818245B",
+      "date_ouverture": "01/01/2008",
+      "date_fermeture": [],
+      "sigle": "LNE",
+      "libelle": "CRI Lille - Nord Europe",
+      "idgef": "10",
+      "adressegeographique": {
+         "@siid": "AD0005O",
+         "libelle": "CRI Lille",
+         "cri": {
+            "@siid": "CR0003O",
+            "#text": "LNE"
+         },
+         "ville": "Villeneuve d'Ascq",
+         "adresse": "Parc Scientifique de la Haute Borne 40, avenue Halley Bât.A, Park Plaza",
+         "cp": "59650",
+         "latitude": "50.605552",
+         "longitude": "3.14805"
+      },
+      "responsable": [
+         {
+            "@fonction": "dcr",
+            "personne": {
+               "@gefid": "herli00E",
+               "nom": "Herlin",
+               "prenom": "Isabelle"
+            }
+         },
+         {
+            "@fonction": "ds",
+            "personne": {
+               "@gefid": "biern00C",
+               "nom": "Biernacki",
+               "prenom": "Christophe"
+            }
+         },
+         {
+            "@fonction": "da",
+            "personne": {
+               "@gefid": "00001JFG",
+               "nom": "Coudert",
+               "prenom": "Sylvie"
+            }
+         },
+         {
+            "@fonction": "vpcp",
+            "personne": {
+               "@gefid": "ppreu00A",
+               "nom": "Preux",
+               "prenom": "Philippe"
+            }
+         }
+      ]
+   },
+   {
+      "@siid": "CR0004Z",
+      "numnatstructrep": "198618246Y",
+      "date_ouverture": "01/01/1986",
+      "date_fermeture": [],
+      "sigle": "NGE",
+      "libelle": "CRI Nancy - Grand Est",
+      "idgef": "5",
+      "adressegeographique": {
+         "@siid": "AD0006C",
+         "libelle": "CRI Nancy",
+         "cri": {
+            "@siid": "CR0004Z",
+            "#text": "NGE"
+         },
+         "ville": "Villers lès Nancy",
+         "adresse": "615 Rue du Jardin Botanique",
+         "cp": "54600",
+         "latitude": "48.665482",
+         "longitude": "6.157719"
+      },
+      "responsable": [
+         {
+            "@fonction": "dcr",
+            "personne": {
+               "@gefid": "petit00B",
+               "nom": "Petitjean",
+               "prenom": "Sylvain"
+            }
+         },
+         {
+            "@fonction": "ds",
+            "personne": {
+               "@gefid": "merzz00B",
+               "nom": "Merz",
+               "prenom": "Stephan"
+            }
+         },
+         {
+            "@fonction": "da",
+            "personne": {
+               "@gefid": "diasz00B",
+               "nom": "Dias",
+               "prenom": "Jocelyne"
+            }
+         },
+         {
+            "@fonction": "vpcp",
+            "personne": {
+               "@gefid": "evinc00D",
+               "nom": "Vincent",
+               "prenom": "Emmanuel"
+            }
+         }
+      ]
+   },
+   {
+      "@siid": "CR0005N",
+      "numnatstructrep": "196718247G",
+      "date_ouverture": "01/01/1967",
+      "date_fermeture": [],
+      "sigle": "PRO",
+      "libelle": "CRI de Paris",
+      "idgef": "2",
+      "adressegeographique": {
+         "@siid": "AD0068P",
+         "libelle": "CRI Paris",
+         "cri": {
+            "@siid": "CR0005N",
+            "#text": "PRO"
+         },
+         "ville": "Paris",
+         "adresse": "2, rue Simone Iff",
+         "cp": "75012",
+         "latitude": "48.842123",
+         "longitude": "2.322003"
+      },
+      "responsable": [
+         {
+            "@fonction": "dcr",
+            "personne": {
+               "@gefid": "simpl01A",
+               "nom": "Ryl",
+               "prenom": "Isabelle"
+            }
+         },
+         {
+            "@fonction": "ds",
+            "personne": {
+               "@gefid": "cante00E",
+               "nom": "Canteaut",
+               "prenom": "Anne"
+            }
+         },
+         {
+            "@fonction": "da",
+            "personne": {
+               "@gefid": "begis00E",
+               "nom": "Begis",
+               "prenom": "Dominique"
+            }
+         },
+         {
+            "@fonction": "vpcp",
+            "personne": {
+               "@gefid": "mfern00E",
+               "nom": "Fernandez Varela",
+               "prenom": "Miguel Angel"
+            }
+         }
+      ]
+   },
+   {
+      "@siid": "CR0007B",
+      "numnatstructrep": "198018249C",
+      "date_ouverture": "01/01/1980",
+      "date_fermeture": [],
+      "sigle": "RBA",
+      "libelle": "CRI Rennes - Bretagne Atlantique",
+      "idgef": "3",
+      "adressegeographique": {
+         "@siid": "AD0015R",
+         "libelle": "CRI Rennes",
+         "cri": {
+            "@siid": "CR0007B",
+            "#text": "RBA"
+         },
+         "ville": "Rennes",
+         "adresse": "Campus de Beaulieu 263, avenue du Général Leclerc",
+         "cp": "35042",
+         "latitude": "48.116528",
+         "longitude": "-1.639473"
+      },
+      "responsable": [
+         {
+            "@fonction": "dcr",
+            "personne": {
+               "@gefid": "ubeda00C",
+               "nom": "Ubeda",
+               "prenom": "Stephane"
+            }
+         },
+         {
+            "@fonction": "ds",
+            "personne": {
+               "@gefid": "00003A2G",
+               "nom": "Me",
+               "prenom": "Ludovic"
+            }
+         },
+         {
+            "@fonction": "da",
+            "personne": {
+               "@gefid": "raden00D",
+               "nom": "Pierre-Radenac",
+               "prenom": "Catherine"
+            }
+         },
+         {
+            "@fonction": "vpcp",
+            "personne": {
+               "@gefid": "chart00D",
+               "nom": "Chartier",
+               "prenom": "Philippe"
+            }
+         }
+      ]
+   },
+   {
+      "@siid": "CR0008I",
+      "numnatstructrep": "198318250R",
+      "date_ouverture": "01/01/1983",
+      "date_fermeture": [],
+      "sigle": "SAM",
+      "libelle": "CRI Sophia Antipolis - Méditerranée",
+      "idgef": "4",
+      "adressegeographique": {
+         "@siid": "AD0019Q",
+         "libelle": "CRI Sophia Antipolis",
+         "cri": {
+            "@siid": "CR0008I",
+            "#text": "SAM"
+         },
+         "ville": "Sophia Antipolis",
+         "adresse": "2004, route des Lucioles",
+         "cp": "06902",
+         "latitude": "43.61619",
+         "longitude": "7.06786"
+      },
+      "responsable": [
+         {
+            "@fonction": "dcr",
+            "personne": {
+               "@gefid": "girau00F",
+               "nom": "Giraudon",
+               "prenom": "Gerard"
+            }
+         },
+         {
+            "@fonction": "ds",
+            "personne": {
+               "@gefid": "mserr00F",
+               "nom": "Serrano",
+               "prenom": "Manuel"
+            }
+         },
+         {
+            "@fonction": "da",
+            "personne": {
+               "@gefid": "serge00F",
+               "nom": "Sergeant",
+               "prenom": "Guy"
+            }
+         },
+         {
+            "@fonction": "vpcp",
+            "personne": {
+               "@gefid": "mcler00F",
+               "nom": "Clerc Gallagher",
+               "prenom": "Maureen"
+            }
+         }
+      ]
+   },
+   {
+      "@siid": "CR0006Z",
+      "numnatstructrep": "200818248E",
+      "date_ouverture": "01/01/2008",
+      "date_fermeture": [],
+      "sigle": "SIF",
+      "libelle": "CRI Saclay - Île-de-France",
+      "idgef": "11",
+      "adressegeographique": {
+         "@siid": "AD0012I",
+         "libelle": "CRI Saclay - Ile-de-France",
+         "cri": {
+            "@siid": "CR0006Z",
+            "#text": "SIF"
+         },
+         "ville": "Palaiseau",
+         "adresse": "Bâtiment Alan Turing - 1 rue Honoré d'Estienne d'Orves - Campus de l'École Polytechnique",
+         "cp": "91120",
+         "latitude": "48.730719",
+         "longitude": "2.1743768"
+      },
+      "responsable": [
+         {
+            "@fonction": "dcr",
+            "personne": {
+               "@gefid": "00004SPG",
+               "nom": "Braunschweig",
+               "prenom": "Bertrand"
+            }
+         },
+         {
+            "@fonction": "ds",
+            "personne": {
+               "@gefid": "chape00E",
+               "nom": "Chapelle",
+               "prenom": "Dominique"
+            }
+         },
+         {
+            "@fonction": "da",
+            "personne": {
+               "@gefid": "phhen00A",
+               "nom": "Henry",
+               "prenom": "Philippe"
+            }
+         },
+         {
+            "@fonction": "vpcp",
+            "personne": {
+               "@gefid": "bthir00F",
+               "nom": "Thirion",
+               "prenom": "Bertrand"
+            }
+         }
+      ]
+   }
+]
