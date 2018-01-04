@@ -27,14 +27,17 @@
                         <a class="nav-link" href="index.html">Index</a>
                     </li>
 
-                    <li class=" nav-item dropdown"><a class=" nav-link dropdown-toggle" data-toggle="dropdown" href="#">Centres de recherche <span class="caret"></span></a>
+                    <li class=" nav-item dropdown"><a class=" nav-link dropdown-toggle" data-toggle="dropdown" href="carteCentreRech.html">Centres de recherche <span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#CarteCR">Carte</a></li>
-                            <li><a class="dropdown-item" href="#InfoComplCR">Informations complémentaires</a></li>
+                            <li><a class="dropdown-item" href="carteCentreRech.html#CarteCR">Carte</a></li>
+                            <li><a class="dropdown-item" href="carteCentreRech.html#InfoComplCR">Informations complémentaires</a></li>
                         </ul>
                     </li>
-                    <li class="nav-item  active">
-                        <a class="nav-link" href="carteEquipe.html">Équipes</a>
+                    <li class=" nav-item dropdown active"><a class=" nav-link dropdown-toggle" data-toggle="dropdown" href="carteEquipe.html">Équipes <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="carteEquipe.html#CarteE">Carte</a></li>
+                            <li><a class="dropdown-item" href="carteEquipe.html#InfoComplE">Équipes</a></li>
+                        </ul>
                     </li>
                 </ul>
             </div>
@@ -60,41 +63,19 @@
                     </div>
                 </div>
                 <div style="display: none" id="infoPers">
-                   <!-- <h5 style="text-align: center; padding-top: 10px">Personne(s) : Nom - prénom </h5><br>
-                    <div class="container-fluid" >
-                        <div class="row" id="lien_structure_exterieure_Pers">
-                            <div class="col-3">
-                                <h6>Adresse :</h6>
-                                <p>libelle - lien</p>
-                                <h6>Hebergeur :</h6>
-                                <p>libelle</p>
-                            </div>
-                            <div class="col-3">
-                                <h6>Partenaire(s) :</h6>
-                                <p>libelle - type </p>
-                            </div>
-                            <div class="col-3">
-                                <h6>Associé(s) :</h6>
-                                <p>libelle - type - directeur - composition</p>
-                            </div>
-                            <div class="col-3">
-                                <h6>Autre(s) structure(s) :</h6>
-                                <p>libelle - type</p>
-                            </div>
-                        </div>
-                    </div>-->
                 </div>
             </div> 
             <div>
                 <div class="container-fluid" id="resume-Eq">
                     <h5 style="text-align: center;  margin-top: 10px">Résumé : </h5>
-                    <!--<p>#text</p>-->
                 </div>
-
             </div>
-
-
-
+            <div class="bg-info text-light">
+                <div class="container-fluid"  style="padding-top: 10px" id="CarteE">
+                    <h5 style="text-align: center;">Localisation : </h5>
+                    <div id="carte" style="width:auto; height:350px; color: black"class="col-sm" ></div>
+                </div>
+            </div>
         </div>
     </body>
 </html>

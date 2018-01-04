@@ -12,9 +12,6 @@ $( document ).ready(function() {
     requestE.open('GET', requestURLquipe);
     requestE.responseType = 'json';
     requestE.send();
-    requestE.onload = function() {
-        Cris = requestE.response;
-    }
     var requestURL = 'bastriCris.json';
     var request = new XMLHttpRequest();
     request.open('GET', requestURL);
@@ -42,6 +39,7 @@ $( document ).ready(function() {
             listId.push(crid);
 
         });
+        initialiser();
     }
 });
 

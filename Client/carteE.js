@@ -57,6 +57,7 @@ $( document ).ready(function() {
             ajouterContenuEqTab(tabNomPre, siid);
 
         });
+        initialiser();
     }
 });
 
@@ -71,7 +72,7 @@ function initialiser(centreLat, centreLng, unZoom) {
     }
 
     if(unZoom == null){
-        unZoom = 5;
+        unZoom = 4;
     }
     var latlng = new google.maps.LatLng(centreLat, centreLng);
 
@@ -82,11 +83,20 @@ function initialiser(centreLat, centreLng, unZoom) {
     };
 
     var carte = new google.maps.Map(document.getElementById("carte"), options);
-
-    Equipe['structureinria'].forEach(function(cr) {
-        var lib = cr['libelle'];
-        var lat = cr['adressegeographique']['latitude'];
-        var long = cr['adressegeographique']['longitude'];
+    Equipe['structureinria'].forEach(function(ent) {
+        var lib = ent['libellefr'];
+        var lat, long;
+        var entite = ent['entite'];
+        if (entite.length ){
+                entite.forEach(function(ent){
+                    if(ent['@principal'] == "1"){
+                        lat = ent['adressegeographique']['latitude'];
+                        long = ent['adressegeographique']['longitude'];
+                    }});
+            }else{
+                lat = entite['adressegeographique']['latitude'];
+                long = entite['adressegeographique']['longitude'];
+            }
         var marker = new google.maps.Marker({
             position: new google.maps.LatLng(lat, long),
             map: carte,
@@ -137,8 +147,8 @@ function ajouterContenuE(libfrE, DateO, DateF, adr, idEq){
     var nom = "Cazals";
     var prenom = "Frederic";
     var nbPub = "2";
-    var lienClick = "ficheEquipe.html?idEq="+idEq+"&lang=fr";
-    var stringHTML = "<div class=\"col-6\"><br><h5>"+libfrE+"</h5><p><b>Date ouverture : </b>"+DateO+"  <br><b>Date Fermeture : </b>"+DateF+"<br><b>Adresse :</b> <br> "+adr+" <br><a href="+lienClick+">Plus d'informations</a><br></p><table class=\"table table-responsive table-hover table-bordered  table-sm table-inverse\" style=\"text-align: center; color: white\"><thead><tr><th>Nom</th><th>Prénom</th><th>Nombre de publication</th><th>Rapport</th></tr></thead> <tbody id=\"contenuIComplTabE"+idEq+"\"></tbody></table></div>";
+    var lienClick = "ficheEquipe.html?idEq="+idEq+"&lang=";
+    var stringHTML = "<div class=\"col-6\"><br><h5>"+libfrE+"</h5><p><b>Date ouverture : </b>"+DateO+"  <br><b>Date Fermeture : </b>"+DateF+"<br><b>Adresse :</b> <br> "+adr+" <br><b>Plus d'informations : </b><br><div class=\"row\"><div class=\"col-6\"><a class=\"btn btn-secondary btn-block\" href="+lienClick+"fr"+">FR</a></div><div class=\"col-6\"><a class=\"btn btn-secondary btn-block\" href="+lienClick+"en"+">EN</a></div></div></p><table class=\"table table-responsive table-hover table-bordered  table-sm table-inverse\" style=\"text-align: center; color: white\"><thead><tr><th>Nom</th><th>Prénom</th><th>Nombre de publication</th><th>Rapport</th></tr></thead> <tbody id=\"contenuIComplTabE"+idEq+"\"></tbody></table></div>";
     $('#contenuIComplE').append(stringHTML);
 }
 
@@ -147,7 +157,7 @@ function ajouterContenuEqTab(noms, idEq){
     var nbPub = "2"; //a faire sauter car on veux savoir le nombre de publication total et pas que dans une équipe
     var lienClick = "fichePerso.html?idEq="+idEq;
     noms.forEach(function (nom){ //pour l'url il faut regarder comment est formule un $_Get
-        stringHTML += "<tr><th scope=\"row\">"+nom[0]+"</th><td>"+nom[1]+"</td><td>"+nbPub+"</td><td><a href="+lienClick+">Cliquez ici</a></td></tr>";
+        stringHTML += "<tr><th scope=\"row\">"+nom[0]+"</th><td>"+nom[1]+"</td><td>"+nbPub+"</td><td><a style=\"color: white;\" href="+lienClick+">Cliquez ici</a></td></tr>";
     });
 
     $('#contenuIComplTabE'+idEq).append(stringHTML);

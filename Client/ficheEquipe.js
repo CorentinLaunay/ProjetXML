@@ -32,7 +32,12 @@ $( document ).ready(function() {
         Equipe['structureinria'].forEach(function(eq){
             var siid = eq['@siid'];
             if (siid == identifiant){
-                var libfr = eq['libellefr'];
+                var lib;
+                if(lang == 'fr'){
+                    lib = eq['libellefr'];
+                }else{
+                    lib = eq['libelleen'];
+                }
                 var sigle = eq['sigle'];
                 var dateC = eq['date_creation'];
                 var dateF = eq['date_fermeture'];
@@ -70,7 +75,45 @@ $( document ).ready(function() {
                             nomPrinc = ent['personne']['nom'];
                             prenomPrinc = ent['personne']['prenom'];
                             if(ent['lien_structure_exterieure']){
-                                ent['lien_structure_exterieure'].forEach(function(lienExt){
+                                if(ent['lien_structure_exterieure'].length){
+                                    ent['lien_structure_exterieure'].forEach(function(lienExt){
+                                        if(lienExt['type_lien'] == 'Partenaire'){
+                                            var libPart = lienExt['structure_exterieure']['libelle']; 
+                                            var typePart = lienExt['structure_exterieure']['type'];
+                                            var dateD = lienExt['date_debut'];
+                                            var dateF = lienExt['date_fin'];
+                                            tabPart.push(new Array(libPart, typePart, dateD, dateF));
+                                        } 
+                                        else if(lienExt['type_lien'] == 'Associée'){
+                                            var libAs = lienExt['structure_exterieure']['libelle']; 
+                                            var typeAs = lienExt['structure_exterieure']['type'];
+                                            var dateD = lienExt['date_debut'];
+                                            var dateF = lienExt['date_fin'];
+                                            var nomDir = 'Inconnu', prenomDir = 'Inconnu';
+                                            if(lienExt['structure_exterieure'][typeAs.toLowerCase()]){
+                                                var infoType = lienExt['structure_exterieure'][typeAs.toLowerCase()];
+                                                nomDir = infoType['directeur']['nom'];
+                                                prenomDir = infoType['directeur']['prenom'];
+
+                                            }
+                                            tabAs.push(new Array(libAs, typeAs, dateD, dateF, nomDir, prenomDir));
+                                        } 
+                                        else if(lienExt['type_lien'] == '(Non renseigné)'){
+                                            var lib = lienExt['structure_exterieure']['libelle']; 
+                                            var type = lienExt['structure_exterieure']['type'];
+                                            var dateD = lienExt['date_debut'];
+                                            var dateF = lienExt['date_fin'];
+                                            var nomDir = 'Inconnu', prenomDir = 'Inconnu';
+                                            if(lienExt['structure_exterieure'][type.toLowerCase()]){
+                                                var infoType = lienExt['structure_exterieure'][type.toLowerCase()];
+                                                nomDir = infoType['directeur']['nom'];
+                                                prenomDir = infoType['directeur']['prenom'];
+                                            }
+                                            tabAutre.push(new Array(lib, type, dateD, dateF, nomDir, prenomDir));
+                                        }
+                                    });
+                                }else{
+                                    var lienExt = ent['lien_structure_exterieure'];
                                     if(lienExt['type_lien'] == 'Partenaire'){
                                         var libPart = lienExt['structure_exterieure']['libelle']; 
                                         var typePart = lienExt['structure_exterieure']['type'];
@@ -105,8 +148,7 @@ $( document ).ready(function() {
                                         }
                                         tabAutre.push(new Array(lib, type, dateD, dateF, nomDir, prenomDir));
                                     }
-                                });
-
+                                }
                             }
                         }else{
                             var adrP = ent['adressegeographique']['libelle']+" "+ ent['adressegeographique']['adresse']+" "+ent['adressegeographique']['cp']+" "+ent['adressegeographique']['ville'];
@@ -118,7 +160,45 @@ $( document ).ready(function() {
                             var prenomP = ent['personne']['prenom'];
                             var tabPartP = new Array(), tabAsP = new Array(), tabAutreP = new Array();
                             if(ent['lien_structure_exterieure']){
-                                ent['lien_structure_exterieure'].forEach(function(lienExt){
+                                if(ent['lien_structure_exterieure'].length){
+                                    ent['lien_structure_exterieure'].forEach(function(lienExt){
+                                        if(lienExt['type_lien'] == 'Partenaire'){
+                                            var libPart = lienExt['structure_exterieure']['libelle']; 
+                                            var typePart = lienExt['structure_exterieure']['type'];
+                                            var dateD = lienExt['date_debut'];
+                                            var dateF = lienExt['date_fin'];
+                                            tabPartP.push(new Array(libPart, typePart, dateD, dateF));
+                                        } 
+                                        else if(lienExt['type_lien'] == 'Associée'){
+                                            var libAs = lienExt['structure_exterieure']['libelle']; 
+                                            var typeAs = lienExt['structure_exterieure']['type'];
+                                            var dateD = lienExt['date_debut'];
+                                            var dateF = lienExt['date_fin'];
+                                            var nomDir = 'Inconnu', prenomDir = 'Inconnu';
+                                            if(lienExt['structure_exterieure'][typeAs.toLowerCase()]){
+                                                var infoType = lienExt['structure_exterieure'][typeAs.toLowerCase()];
+                                                nomDir = infoType['directeur']['nom'];
+                                                prenomDir = infoType['directeur']['prenom'];
+
+                                            }
+                                            tabAsP.push(new Array(libAs, typeAs, dateD, dateF, nomDir, prenomDir));
+                                        } 
+                                        else if(lienExt['type_lien'] == '(Non renseigné)'){
+                                            var lib = lienExt['structure_exterieure']['libelle']; 
+                                            var type = lienExt['structure_exterieure']['type'];
+                                            var dateD = lienExt['date_debut'];
+                                            var dateF = lienExt['date_fin'];
+                                            var nomDir = 'Inconnu', prenomDir = 'Inconnu';
+                                            if(lienExt['structure_exterieure'][type.toLowerCase()]){
+                                                var infoType = lienExt['structure_exterieure'][type.toLowerCase()];
+                                                nomDir = infoType['directeur']['nom'];
+                                                prenomDir = infoType['directeur']['prenom'];
+                                            }
+                                            tabAutreP.push(new Array(lib, type, dateD, dateF, nomDir, prenomDir));
+                                        }
+                                    });
+                                }else{
+                                    var lienExt = ent['lien_structure_exterieure'];
                                     if(lienExt['type_lien'] == 'Partenaire'){
                                         var libPart = lienExt['structure_exterieure']['libelle']; 
                                         var typePart = lienExt['structure_exterieure']['type'];
@@ -153,8 +233,7 @@ $( document ).ready(function() {
                                         }
                                         tabAutreP.push(new Array(lib, type, dateD, dateF, nomDir, prenomDir));
                                     }
-                                });
-
+                                }
                             }
                             tabPersEnPlus.push(new Array(nomP, prenomP, adrP, latP, longP,lienCrP, hebP, tabPartP, tabAsP, tabAutreP))
                         }
@@ -168,7 +247,45 @@ $( document ).ready(function() {
                     nomPrinc = entite['personne']['nom'];
                     prenomPrinc = entite['personne']['prenom'];
                     if(entite['lien_structure_exterieure']){
-                        entite['lien_structure_exterieure'].forEach(function(lienExt){
+                        if(entite['lien_structure_exterieure'].length){
+                            entite['lien_structure_exterieure'].forEach(function(lienExt){
+                                if(lienExt['type_lien'] == 'Partenaire'){
+                                    var libPart = lienExt['structure_exterieure']['libelle']; 
+                                    var typePart = lienExt['structure_exterieure']['type'];
+                                    var dateD = lienExt['date_debut'];
+                                    var dateF = lienExt['date_fin'];
+                                    tabPart.push(new Array(libPart, typePart, dateD, dateF));
+                                } 
+                                else if(lienExt['type_lien'] == 'Associée'){
+                                    var libAs = lienExt['structure_exterieure']['libelle']; 
+                                    var typeAs = lienExt['structure_exterieure']['type'];
+                                    var dateD = lienExt['date_debut'];
+                                    var dateF = lienExt['date_fin'];
+                                    var nomDir = 'Inconnu', prenomDir = 'Inconnu';
+                                    if(lienExt['structure_exterieure'][typeAs.toLowerCase()]){
+                                        var infoType = lienExt['structure_exterieure'][typeAs.toLowerCase()];
+                                        nomDir = infoType['directeur']['nom'];
+                                        prenomDir = infoType['directeur']['prenom'];
+
+                                    }
+                                    tabAs.push(new Array(libAs, typeAs, dateD, dateF, nomDir, prenomDir));
+                                } 
+                                else if(lienExt['type_lien'] == '(Non renseigné)'){
+                                    var lib = lienExt['structure_exterieure']['libelle']; 
+                                    var type = lienExt['structure_exterieure']['type'];
+                                    var dateD = lienExt['date_debut'];
+                                    var dateF = lienExt['date_fin'];
+                                    var nomDir = 'Inconnu', prenomDir = 'Inconnu';
+                                    if(lienExt['structure_exterieure'][type.toLowerCase()]){
+                                        var infoType = lienExt['structure_exterieure'][type.toLowerCase()];
+                                        nomDir = infoType['directeur']['nom'];
+                                        prenomDir = infoType['directeur']['prenom'];
+                                    }
+                                    tabAutre.push(new Array(lib, type, dateD, dateF, nomDir, prenomDir));
+                                }
+                            });
+                        }else{
+                            var lienExt = ent['lien_structure_exterieure'];
                             if(lienExt['type_lien'] == 'Partenaire'){
                                 var libPart = lienExt['structure_exterieure']['libelle']; 
                                 var typePart = lienExt['structure_exterieure']['type'];
@@ -203,8 +320,7 @@ $( document ).ready(function() {
                                 }
                                 tabAutre.push(new Array(lib, type, dateD, dateF, nomDir, prenomDir));
                             }
-                        });
-
+                        }
                     }
                 }
                 var resume = eq['resume'];
@@ -220,16 +336,73 @@ $( document ).ready(function() {
                 ajouterInfoE1(typeStr, classif, domtext, thtext);
                 ajouterInfoE2(dateC,dateF, lien);
                 ajouterInfoE3(adr, lienCr, heb);
-                ajouterLibE(libfr);
+                ajouterLibE(lib);
                 ajouterResumer(resum);
                 if(entite.length){
                     ajouterPers(tabPersEnPlus);
                 }
             }
         });
-
+        initialiser();
     }
 });
+
+function initialiser(centreLat, centreLng, unZoom) {
+
+    if(centreLat == null){
+        centreLat = 43.696;
+    }
+    if(centreLng == null){
+        centreLng = 7.289429;
+    }
+
+    if(unZoom == null){
+        unZoom = 4;
+    }
+    var latlng = new google.maps.LatLng(centreLat, centreLng);
+
+    var options = {
+        center: latlng,
+        zoom: unZoom,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+
+    var carte = new google.maps.Map(document.getElementById("carte"), options);
+    Equipe['structureinria'].forEach(function(ent) {
+        var siid = ent['@siid'];
+        if (siid == identifiant){
+            var lib;
+            if(lang == 'fr'){
+                lib = ent['libellefr'];
+            }else{
+                lib = ent['libelleen'];
+            }
+            var lat, long;
+            var entite = ent['entite'];
+            if (entite.length ){
+                entite.forEach(function(ent){
+                    lat = ent['adressegeographique']['latitude'];
+                    long = ent['adressegeographique']['longitude'];
+                });
+            }else{
+                lat = entite['adressegeographique']['latitude'];
+                long = entite['adressegeographique']['longitude'];
+            }
+            var marker = new google.maps.Marker({
+                position: new google.maps.LatLng(lat, long),
+                map: carte,
+                title: lib
+            });
+
+            google.maps.event.addListener(marker,'click',function() {
+                var infowindow = new google.maps.InfoWindow({
+                    content:lib
+                });
+                infowindow.open(carte,marker);
+            });
+        }
+    });
+}
 
 function ajouterInfoE1(typeStruct, classif, text, theme){
     var stringHTML = "<h6>Type de structure: </h6><p>"+typeStruct+"</p><h6>Domaine : </h6><p>"+classif+" - "+text+"</p><h6>Theme : </h6><p>"+theme+"</p>";
@@ -237,7 +410,14 @@ function ajouterInfoE1(typeStruct, classif, text, theme){
 }
 
 function ajouterInfoE2(dateC, dateF, lien){
-    var stringHTML = "<h6>Date de création : </h6><p>"+dateC+" </p><h6>Date de fermeture : </h6><p>"+dateF+"</p><h6>Lien : </h6><a href="+lien+" >"+lien+"</a>";
+    var lienlib;
+    if(!lien){
+        lien ="#";
+        lienlib = "Inconnu";
+    }else{
+        lienlib = lien;
+    }
+    var stringHTML = "<h6>Date de création : </h6><p>"+dateC+" </p><h6>Date de fermeture : </h6><p>"+dateF+"</p><h6>Lien : </h6><a href="+lien+" >"+lienlib+"</a>";
     $('#info-2').append(stringHTML);
 }
 
@@ -280,7 +460,7 @@ function ajouterPers(tabPersonne){
         var tabAutre = tab[9];
         stringHTML += " <h5 style=\"text-align: center; padding-top: 10px\">Personne(s) : "+nom+" "+prenom+" </h5><br><div class=\"container-fluid\" ><div class=\"row\" id=\"lien_structure_exterieure_Pers\"><div class=\"col-3\"><h6>Adresse :</h6><p>"+adrP+" - "+lienCrP+"</p><h6>Hebergeur :</h6> <p>"+hebP+"</p></div><div class=\"col-3\">"+ajouterPartenaire(tabPart)+"</div><div class=\"col-3\">"+ajouterAssocie(tabAs)+" </div><div class=\"col-3\">"+ajouterAutreLien(tabAutre)+"</div></div></div>";
     });
-    
+
     $('#infoPers').append(stringHTML);
     $('#infoPers').show();
 }

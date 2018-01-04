@@ -12,7 +12,7 @@
         <script src="bootstrap-4.0.0/dist/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
         <script type="text/javascript" src="carteE.js"></script>
     </head>
-    <body onload="initialiser()">
+    <body data-spy="scroll" data-target=".navbar">
         <nav class="navbar navbar-toggleable-md navbar-expand-md navbar-dark bg-primary fixed-top" >
             <!--style="margin-left: 10px; margin-right: 10px; border-radius: 10px; margin-top: 5px;"-->
             <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
@@ -24,43 +24,30 @@
                     <li class="nav-item ">
                         <a class="nav-link" href="index.html">Index</a>
                     </li>
+
                     <li class=" nav-item dropdown"><a class=" nav-link dropdown-toggle" data-toggle="dropdown" href="carteCentreRech.html">Centres de recherche <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="carteCentreRech.html#CarteCR">Carte</a></li>
                             <li><a class="dropdown-item" href="carteCentreRech.html#InfoComplCR">Informations complémentaires</a></li>
                         </ul>
                     </li>
-                    <li class="nav-item active">
-                        <a class="nav-link" href="#">Équipes</a>
+                    <li class=" nav-item dropdown active"><a class=" nav-link dropdown-toggle" data-toggle="dropdown" href="#">Équipes <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#CarteE">Carte</a></li>
+                            <li><a class="dropdown-item" href="#InfoComplE">Équipes</a></li>
+                        </ul>
                     </li>
                 </ul>
             </div>
         </nav>
         <div class="container-fluid" style="padding-top: 56px;" id="CarteE">
             <h1 style="text-align: center;">La carte</h1>
-            <div class="row">
-               <!-- <div class="col-sm"> <!--Nom du centre : nombres equipes dans centre et nombre de personne par centre et équipe fermé
-                    <table class="table table-hover table-sm" style="text-align: center;">
-                        <thead>
-                            <tr>
-                                <th>Libellé équipe</th>
-                                <th>Nombre participants</th>
-                                <th>Date ouverture</th>
-                                <th>Fermé</th>
-                            </tr>
-                        </thead>
-                        <tbody id="contenutabE">
-                        </tbody>
-                    </table>
-                </div>-->
-                <div id="carte" style="width:auto; height:auto;"  ></div><!--class="col-sm"-->
-            </div>
+            <div id="carte" style="width:auto; height:350px;"class="col-sm" ></div>
         </div>
         <div class="bg-info text-light" >
             <h1 style="text-align: center; margin-top: 10px" id="InfoComplE">Équipe</h1>
             <div class="container-fluid" >
                 <div class="row" id="contenuIComplE">
-                    
                 </div> 
             </div>
         </div>
