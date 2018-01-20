@@ -1,0 +1,12 @@
+bower_components/
+build/
+node_modules/
+.idea/
+.settings/
+serveur/src/main/resources/xsd/*
+serveur/src/main/resources/xml
+!serveur/src/main/resources/xsd/date.xjb 
+
+serveur/target
+serveur/project-web-rest.iml
+sun-jaxb.episode

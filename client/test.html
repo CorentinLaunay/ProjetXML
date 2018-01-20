@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script>
+
+        $(document).ready(function() {
+            $.get( "http://localhost:8082/api/centres/list", function( data ) {
+                $( ".result" ).html( data );
+                console.log(data);
+            });
+            }
+        );
+
+    </script>
+</head>
+
+<body>
+    <div class="result"></div>
+</body>
+<html>

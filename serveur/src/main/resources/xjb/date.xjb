@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<jaxb:bindings xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" jaxb:version="2.1"
+               xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc"
+               xmlns:xs="http://www.w3.org/2001/XMLSchema"
+               jaxb:extensionBindingPrefixes="xjc">
+    <jaxb:globalBindings>
+        <jaxb:serializable uid="1" />
+
+        <xjc:javaType name="java.time.LocalDateTime" xmlType="xs:dateTime"
+                      adapter="fr.unice.miage.m1.adapters.DateTimeAdapter"/>
+        <xjc:javaType name="java.time.LocalDate" xmlType="xs:date"
+                      adapter="fr.unice.miage.m1.adapters.DateAdapter"/>
+
+    </jaxb:globalBindings>
+</jaxb:bindings>

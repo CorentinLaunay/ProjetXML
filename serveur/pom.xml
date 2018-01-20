@@ -1,0 +1,243 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>cgms</groupId>
+	<artifactId>project-web-rest</artifactId>
+	<packaging>war</packaging>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>project-web-rest Maven Webapp</name>
+	<url>http://maven.apache.org</url>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+	</properties>
+
+	<repositories>
+		<repository>
+			<id>basex</id>
+			<name>BaseX Maven Repository</name>
+			<url>http://files.basex.org/maven</url>
+		</repository>
+		<repository>
+			<id>xqj</id>
+			<name>XQJ Maven Repository</name>
+			<url>http://xqj.net/maven</url>
+		</repository>
+	</repositories>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.basex</groupId>
+			<artifactId>basex-api</artifactId>
+			<version>8.6</version>
+
+			<exclusions>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-simple</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-api</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>3.8.1</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.0.1</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.resteasy</groupId>
+			<artifactId>resteasy-jaxrs</artifactId>
+			<version>3.0.4.Final</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-api</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.resteasy</groupId>
+			<artifactId>resteasy-jaxb-provider</artifactId>
+			<version>3.0.4.Final</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.jboss.resteasy/resteasy-jackson-provider -->
+		<dependency>
+			<groupId>org.jboss.resteasy</groupId>
+			<artifactId>resteasy-jackson-provider</artifactId>
+			<version>3.0.4.Final</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.xml.bind</groupId>
+			<artifactId>jaxb-api</artifactId>
+			<version>2.2.12</version>
+		</dependency>
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>20171018</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<finalName>project-web-rest</finalName>
+		<outputDirectory>${project.build.directory}/${project.build.finalName}/WEB-INF/classes</outputDirectory>
+		<plugins>
+
+			<!-- Generate using jaxb2 mojo plugin (works, but less used)
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>jaxb2-maven-plugin</artifactId>
+				<version>2.3.1</version>
+				<executions>
+					<execution>
+						<id>bastri</id>
+						<goals>
+							<goal>xjc</goal>
+						</goals>
+						<configuration>
+							<sources>
+								<source>src/main/xsd/bastri.xsd</source>
+							</sources>
+
+							<packageName>org.inria.fr.ns.sr</packageName>
+
+							<xjbSources>
+								<xjbSource>src/main/resources/xsd/date.xjb</xjbSource>
+							</xjbSources>
+						</configuration>
+					</execution>
+					<execution>
+						<id>bastriCris</id>
+						<goals>
+							<goal>xjc</goal>
+						</goals>
+						<configuration>
+							<sources>
+								<source>src/main/resources/xsd/bastriCris.xsd</source>
+							</sources>
+
+							<packageName>org.inria.fr.ns.cr</packageName>
+
+							<xjbSources>
+								<xjbSource>src/main/resources/xsd/date.xjb</xjbSource>
+							</xjbSources>
+
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>-->
+
+			<!-- Generate using maven-jaxb2 plugin -->
+			<plugin>
+				<groupId>org.jvnet.jaxb2.maven2</groupId>
+				<artifactId>maven-jaxb2-plugin</artifactId>
+				<version>0.8.1</version>
+
+				<executions>
+
+					<execution>
+						<id>bastri</id>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+
+							<schemaDirectory>
+								src/main/resources/xsd
+							</schemaDirectory>
+							<schemaIncludes>
+								<include>bastri.xsd</include>
+							</schemaIncludes>
+
+							<generatePackage>org.inria.fr.ns.sr</generatePackage>
+							<generateDirectory>${basedir}/src/main/java</generateDirectory>
+							<bindingDirectory>src/main/resources/xjb</bindingDirectory>
+							<!-- Bind our date -->
+							<bindingIncludes>
+								<include>date.xjb</include>
+							</bindingIncludes>
+							<bindingExcludes>
+								<exclude>*.xsd</exclude>
+							</bindingExcludes>
+						</configuration>
+					</execution>
+
+					<execution>
+						<id>bastriCris</id>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<schemaDirectory>
+								src/main/resources/xsd
+							</schemaDirectory>
+
+							<schemaIncludes>
+								<include>bastriCris.xsd</include>
+							</schemaIncludes>
+							<generatePackage>org.inria.fr.ns.cr</generatePackage>
+							<generateDirectory>${basedir}/src/main/java</generateDirectory>
+							<bindingDirectory>src/main/resources/xjb</bindingDirectory>
+							<bindingIncludes>
+								<include>date.xjb</include>
+							</bindingIncludes>
+							<bindingExcludes>
+								<exclude>*.xsd</exclude>
+							</bindingExcludes>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+
+
+			<plugin>
+				<groupId>org.eclipse.jetty</groupId>
+				<artifactId>jetty-maven-plugin</artifactId>
+				<version>9.4.8.v20171121</version>
+				<configuration>
+					<webAppSourceDirectory>${project.build.directory}/project-web-rest</webAppSourceDirectory>
+					<scanIntervalSeconds>100</scanIntervalSeconds>
+					<scanTargets>
+						<scanTarget>src/main/resources/xsd</scanTarget>
+						<scanTarget>src/main/java</scanTarget>
+					</scanTargets>
+					<webApp>
+						<contextPath>/</contextPath>
+					</webApp>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<configuration>
+					<descriptorRefs>
+						<descriptorRef>src</descriptorRef>
+					</descriptorRefs>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>

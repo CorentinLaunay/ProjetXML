@@ -1,0 +1,152 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../bower_components/google-map/google-map.html">
+<link rel="import" href="../bower_components/paper-toast/paper-toast.html">
+<link rel="import" href="shared-styles.html">
+
+<dom-module id="xml-map">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+
+        padding: 10px;
+      }
+      .map {
+        width: 100%;
+        height: 500px;
+      }
+    </style>
+
+    <iron-ajax
+      auto
+      url="http://localhost:8082/api/centres/list"
+      handle-as="json"
+      on-response="handleCentersResponse"
+      debounce-duration="300"></iron-ajax>
+      <google-map id="map" class="map" fit-to-markers api-key="AIzaSyD3E1D9b-Z7ekrT3tbhl_dy8DCXuIuDDRc" latitude="43.700137" longitude="7.2536641" zoom="3"></google-map>
+  </template>
+
+  <script>
+    class XmlMap extends Polymer.Element {
+      static get is() { return 'xml-map'; }
+      static get properties() {
+        return {
+          centers: {
+            type: Object
+          },
+          map: {
+            type: Object
+          }
+        };
+      }
+
+      /**
+       * Handle iron-ajax response for centers list get
+       */
+      handleCentersResponse(response){
+        this.centers = response.detail.response;
+        this.computeCenters();
+      }
+
+      // Ready is called once on XMLMap create
+      // More info on : https://www.polymer-project.org/2.0/docs/devguide/custom-elements
+      ready(){
+        super.ready();
+        this.map = this.shadowRoot.querySelector('#map');
+      }
+
+      /**
+       * Retrieve useful info for centers and draw markers on map
+       */
+      computeCenters(){
+        // Grabing centers from this.centers getted by iron-ajax
+        const centers = this.centers["cr"];
+        // populate our map on instance (for easy grab after)
+        this.map = this.shadowRoot.querySelector('#map');
+
+        // For each center
+        for(let center in centers){
+          const info = centers[center];
+
+          // Create google map marker
+          this.createMarkerForCenter(info, center);
+          console.log("Marker added on map : ", info);
+        }
+
+        // Display a toast to tell user
+        this._createToast("Marqueurs récupérés du serveur");
+      }
+
+      /**
+       * Create a google map marker using center infos
+       */
+      createMarkerForCenter(info, id){
+        // Grab useful infos
+        const latitude = info.adressegeographique.latitude;
+        const longitude = info.adressegeographique.longitude;
+        const libelle = info.libelle;
+        const adresse = info.adressegeographique.adresse;
+        const dateOuverture = info.dateOuverture.dayOfYear + "/" +  
+                              info.dateOuverture.dayOfMonth + "/" + 
+                              info.dateOuverture.year;
+
+        // Create a new dom element google-map-marker
+        const marker = document.createElement('google-map-marker');
+        marker.latitude = latitude;
+        marker.longitude = longitude;
+        marker.title = libelle;
+        marker.clickEvents = true;
+        marker.id = "marker" + id;
+
+        // Writing the "bubble" of our new marker
+        marker.innerHTML = "<em>" + libelle + "</em>" 
+                           + "<br>Adresse : " + adresse 
+                           + "<br>Date ouverture : " + dateOuverture;
+
+        // Bind Click event to close every marker and keep only one opened
+        marker.addEventListener("google-map-marker-click", (event) => {
+          this._closeMarkers(event.target.id);
+        });
+
+        // Append on the map !
+        this.map.appendChild(marker);
+      }
+
+      /**
+       * Create a toast with specified message
+       */
+      _createToast(message){
+        const toast = document.createElement('paper-toast');
+        toast.text = message;
+        document.querySelector('body').appendChild(toast);
+        toast.open();
+      }
+
+      /**
+       * Close every marker except passed markerId
+       */
+      _closeMarkers(markerId){
+        // Grab every markers
+        const markers = this.shadowRoot.querySelectorAll('google-map-marker');
+        markers.forEach((marker) => {
+          // If not our clicked, just close it
+          if(markerId != marker.id)
+            marker.open = false;
+        });
+      }
+    }
+
+    window.customElements.define(XmlMap.is, XmlMap);
+  </script>
+</dom-module>
