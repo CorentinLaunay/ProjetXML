@@ -37,7 +37,6 @@ public class UpdateRunnable implements Runnable {
 			int hour = cal.get(Calendar.HOUR_OF_DAY);
 			int minute = cal.get(Calendar.MINUTE);
 
-			// If any of the two files doesn't exist or .. ? TODO : Clarify with Sergio
 			if (!bastri.exists() || !bastriCris.exists() || (hour == 8 && minute == 59)) {
 				Thread.sleep((long) (60000));
 				this.updateBastri("http://www-sop.inria.fr/members/Philippe.Poulard/projet/2017/bastri.xsd", bastriXsdPath);

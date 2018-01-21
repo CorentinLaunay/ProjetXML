@@ -144,7 +144,7 @@
 			<plugin>
 				<groupId>org.jvnet.jaxb2.maven2</groupId>
 				<artifactId>maven-jaxb2-plugin</artifactId>
-				<version>0.8.1</version>
+				<version>0.13.2</version>
 
 				<executions>
 
@@ -212,7 +212,7 @@
 					<webAppSourceDirectory>${project.build.directory}/project-web-rest</webAppSourceDirectory>
 					<scanIntervalSeconds>100</scanIntervalSeconds>
 					<scanTargets>
-						<scanTarget>src/main/resources/xsd</scanTarget>
+						<scanTarget>src/main/xsd</scanTarget>
 						<scanTarget>src/main/java</scanTarget>
 					</scanTargets>
 					<webApp>

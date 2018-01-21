@@ -4,24 +4,21 @@ import org.basex.core.cmd.XQuery;
 import org.inria.fr.ns.cr.Crs;
 import org.inria.fr.ns.cr.Crs.Cr;
 import org.inria.fr.ns.cr.Crs.Cr.Responsable;
-import org.inria.fr.ns.sr.Entite;
-import org.inria.fr.ns.sr.StructureInrias;
-import org.inria.fr.ns.sr.Structureinria;
+import org.inria.fr.ns.cr.Crs.Cr.Responsable.Personne;
+import org.inria.fr.ns.sr.*;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 
 import java.io.StringReader;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class XQueryBuilder {
 
-	private Database database;
+	private Object database;
 
-	public XQueryBuilder(Database database) {
+	public XQueryBuilder(Object database) {
 		this.database = database;
 	}
 
@@ -32,21 +29,16 @@ public class XQueryBuilder {
 	 */
 	public Crs getCenters() {
 		try {
-			// Grab every crs
 			XQuery query = new XQuery("//crs");
 
-			// Initialize jaxBContext with CRS class as we are getting that kind of info
 			JAXBContext jaxbContext = JAXBContext.newInstance(Crs.class);
 
-			// Launching our unmarshaller
 			Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 			Database db = (Database) this.database;
-			// Execute our query
 			String queryResult = db.execute(query);
 
 			StringReader reader = new StringReader(queryResult);
 
-			// Serialize into generated CRS class
 			return (Crs) unmarshaller.unmarshal(reader);
 
 		} catch (JAXBException e) {
@@ -65,7 +57,6 @@ public class XQueryBuilder {
 			return null;
 		}
 
-		// Grab every crs
 		XQuery query = new XQuery("//crs");
 		try {
 			JAXBContext jaxbContext = JAXBContext.newInstance(Crs.class);
@@ -130,63 +121,4 @@ public class XQueryBuilder {
 		return null;
 	}
 
-	public List<Structureinria> getEquipesParCentreDeRecherche(String centerId) {
-		ArrayList<Structureinria> outputListEntite = new ArrayList<Structureinria>();
-		String siid = getCenter(centerId).getSiid();
-		XQuery query = new XQuery("doc(\"src/main/resources/XML/bastri.xml\")/root()");
-		try {
-			JAXBContext jaxbContext = JAXBContext.newInstance(StructureInrias.class);
-
-			Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
-
-			Database db = (Database) this.database;
-			String queryResult = db.execute(query);
-			StringReader reader = new StringReader(queryResult);
-			StructureInrias cris = (StructureInrias) unmarshaller.unmarshal(reader);
-			List<Structureinria> listCris = cris.getStructureinria();
-
-			for (Structureinria structure : listCris) {
-				List<Entite> listdesEquipes = structure.getEntite();
-					for(Entite entite : listdesEquipes) {
-						if(entite.getAdressegeographique().getCri().getSiid().equals(siid)) {
-							outputListEntite.add(structure);
-						}
-					}
-			}
-			return outputListEntite;
-		} catch (JAXBException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-
-	public int getNombreEquipeParCentreDeRecherche(String centerId) {
-		ArrayList<Structureinria> outputListEntite = new ArrayList<Structureinria>();
-		String siid = getCenter(centerId).getSiid();
-		XQuery query = new XQuery("doc(\"src/main/resources/XML/bastri.xml\")/root()");
-		try {
-			JAXBContext jaxbContext = JAXBContext.newInstance(StructureInrias.class);
-
-			Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
-
-			Database db = (Database) this.database;
-			String queryResult = db.execute(query);
-			StringReader reader = new StringReader(queryResult);
-			StructureInrias cris = (StructureInrias) unmarshaller.unmarshal(reader);
-			List<Structureinria> listCris = cris.getStructureinria();
-
-			for (Structureinria structure : listCris) {
-				List<Entite> listdesEquipes = structure.getEntite();
-					for(Entite entite : listdesEquipes) {
-						if(entite.getAdressegeographique().getCri().getSiid().equals(siid)) {
-							outputListEntite.add(structure);
-						}
-					}
-			}
-			return outputListEntite.size();
-		} catch (JAXBException e) {
-			e.printStackTrace();
-		}
-		return 0;
-	}
 }

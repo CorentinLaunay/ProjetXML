@@ -2,7 +2,6 @@ package fr.unice.miage.m1.xml;
 
 import org.inria.fr.ns.cr.Crs;
 import org.inria.fr.ns.cr.Crs.Cr.Responsable;
-import org.inria.fr.ns.sr.Structureinria;
 
 import javax.servlet.ServletContext;
 import javax.ws.rs.GET;
@@ -44,24 +43,4 @@ public class GetCentre {
         XQueryBuilder builder = (XQueryBuilder) servletContext.getAttribute("builder");
         return builder.getResponsablesCentre(id);
     }
-    
-    @GET
-    @Path("/equipes/{id}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<Structureinria> getEquipesParCentreDeRecherche(@Context ServletContext servletContext, @PathParam("id") String id) {
-        // Grabbing current builder (who has access to database) from servletContext
-        XQueryBuilder builder = (XQueryBuilder) servletContext.getAttribute("builder");
-        return builder.getEquipesParCentreDeRecherche(id);
-    }
-    
-    @GET
-    @Path("/equipes/nombre/{id}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public int getNombreEquipeParCentreDeRecherche(@Context ServletContext servletContext, @PathParam("id") String id) {
-        // Grabbing current builder (who has access to database) from servletContext
-        XQueryBuilder builder = (XQueryBuilder) servletContext.getAttribute("builder");
-        return builder.getNombreEquipeParCentreDeRecherche(id);
-    }
-    
-    
 }
