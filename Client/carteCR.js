@@ -6,41 +6,42 @@ var listId = new Array();
 var j = 0;
 $( document ).ready(function() {
 
+    $.get( "http://localhost:8082/api/centres/list", function( data ) {
+        $( ".result" ).html( data );
+        $.each(data,function(i, cris ) {
+            $.each(cris,function(i, cr ) {
+                var lib = cr.libelle;
+                var lat = cr.adressegeographique.latitude;
+                var long = cr.adressegeographique.longitude;
+                var dateOuv = cr.dateOuverture.dayOfWeek + " " + cr.dateOuverture.dayOfMonth + " " + cr.dateOuverture.month + " " + cr.dateOuverture.year;
+                var adr = cr.adressegeographique.libelle+" "+ cr.adressegeographique.adresse+" "+cr.adressegeographique.cp+" "+cr.adressegeographique.ville;
+                var dcr = cr['responsable'][0]['personne']['nom']+" "+ cr['responsable'][0]['personne']['prenom'];
+                var ds = cr['responsable'][1]['personne']['nom']+" "+ cr['responsable'][1]['personne']['prenom'];
+                var da = cr['responsable'][2]['personne']['nom']+" "+ cr['responsable'][2]['personne']['prenom'];
+                var vpcp = cr['responsable'][3]['personne']['nom']+" "+ cr['responsable'][3]['personne']['prenom'];
+                var crid = cr['siid'];
+                var nb;
+                ajouterContenuTabCR(lib,lat,long,crid);
+                ajouterContenuCR(crid,lib,dateOuv,adr, dcr,ds,da,vpcp);
+                addInput(crid);
+                //chargementR(requestE)
+                //listId.push(crid);
+
+            });
+            Cris = cris;
+            initialiser();
+            console.log(Cris);
+        });
+
+    });
+
     var requestURLquipe = 'bastri.json';
     var requestE = new XMLHttpRequest();
     var JsEqs;
     requestE.open('GET', requestURLquipe);
     requestE.responseType = 'json';
     requestE.send();
-    var requestURL = 'bastriCris.json';
-    var request = new XMLHttpRequest();
-    request.open('GET', requestURL);
-    request.responseType = 'json';
-    request.send();
-    var i = 0;
-    request.onload = function() {
-        Cris = request.response;
-        Cris.forEach(function(cr) {
-            var lib = cr['libelle'];
-            var lat = cr['adressegeographique']['latitude'];
-            var long = cr['adressegeographique']['longitude'];
-            var dateOuv = cr['date_ouverture'];
-            var adr = cr['adressegeographique']['libelle']+" "+ cr['adressegeographique']['adresse']+" "+cr['adressegeographique']['cp']+" "+cr['adressegeographique']['ville'];
-            var dcr = cr['responsable'][0]['personne']['nom']+" "+ cr['responsable'][0]['personne']['prenom'];
-            var ds = cr['responsable'][1]['personne']['nom']+" "+ cr['responsable'][1]['personne']['prenom'];
-            var da = cr['responsable'][2]['personne']['nom']+" "+ cr['responsable'][2]['personne']['prenom'];
-            var vpcp = cr['responsable'][3]['personne']['nom']+" "+ cr['responsable'][3]['personne']['prenom'];
-            var crid = cr['@siid'];
-            var nb;
-            ajouterContenuTabCR(lib,lat,long,crid);
-            ajouterContenuCR(crid,lib,dateOuv,adr, dcr,ds,da,vpcp);
-            addInput(crid);
-            chargementR(requestE)
-            listId.push(crid);
 
-        });
-        initialiser();
-    }
 });
 
 function chargementR(reqE){
@@ -134,7 +135,8 @@ function initialiser(centreLat, centreLng, unZoom) {
 */
 
 function ajouterContenuCR(crid,libCR, dateO,adress,dcr,ds,da,vpcp){
-    var stringHTML = " <div class=\"col-3\" id="+crid+"><br><h5>"+libCR+"</h5><p><b>Date ouverture :</b>  "+dateO+"<br><b>Adresse :</b> <br>"+adress+"<br><b>Responsable : </b> <br>Directeur de Centre : "+dcr+" <br> Délégué Scientifique : "+ds+" <br> Délégué à l'Administration : "+da+" <br> Vice Président du Comité des Projets : "+vpcp+"</p></div>";
+    var lienE = "ficheCentre.html?idCr="+crid+"";
+    var stringHTML = " <div class=\"col-3\" id="+crid+"><br><h5>"+libCR+"</h5><p><b>Date ouverture :</b>  "+dateO+"<br><b>Adresse :</b> <br>"+adress+"<br><b>Responsables : </b> <br>Directeur de Centre : "+dcr+" <br> Délégué Scientifique : "+ds+" <br> Délégué à l'Administration : "+da+" <br> Vice Président du Comité des Projets : "+vpcp+"</p><div class=\"row\"><div class=\"col-6\"></div><div class=\"col-6\"><a class=\"btn btn-secondary btn-block\" href="+lienE+">Plus</a></div></div></div>";
     $('#contenuIComplCR').append(stringHTML);
 }
 

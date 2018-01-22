@@ -1,0 +1,59 @@
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="crs">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="cr" maxOccurs="unbounded" minOccurs="0">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element type="xs:string" name="numnatstructrep"/>
+              <xs:element type="xs:date" name="date_ouverture"/>
+              <xs:element type="xs:date" name="date_fermeture"/>
+              <xs:element type="xs:string" name="sigle"/>
+              <xs:element type="xs:string" name="libelle"/>
+              <xs:element type="xs:byte" name="idgef"/>
+              <xs:element name="adressegeographique">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element type="xs:string" name="libelle"/>
+                    <xs:element name="cri">
+                      <xs:complexType>
+                        <xs:simpleContent>
+                          <xs:extension base="xs:string">
+                            <xs:attribute type="xs:string" name="siid" use="optional"/>
+                          </xs:extension>
+                        </xs:simpleContent>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element type="xs:string" name="ville"/>
+                    <xs:element type="xs:string" name="adresse"/>
+                    <xs:element type="xs:string" name="cp"/>
+                    <xs:element type="xs:float" name="latitude"/>
+                    <xs:element type="xs:float" name="longitude"/>
+                  </xs:sequence>
+                  <xs:attribute type="xs:string" name="siid" use="optional"/>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="responsable" maxOccurs="unbounded" minOccurs="0">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="personne">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element type="xs:string" name="nom"/>
+                          <xs:element type="xs:string" name="prenom"/>
+                        </xs:sequence>
+                        <xs:attribute type="xs:string" name="gefid" use="optional"/>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                  <xs:attribute type="xs:string" name="fonction" use="optional"/>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+            <xs:attribute type="xs:string" name="siid" use="optional"/>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

@@ -1,48 +1,56 @@
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr">
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="generator" content="Polymer Starter Kit">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+    <title>Projet XML</title>
+    <meta name="description" content="">
+    <base href="/">
+    <link rel="icon" href="images/favicon.ico">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#3f51b5">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="Projet XML">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Projet XML">
+    <link rel="apple-touch-icon" href="images/manifest/icon-48x48.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/manifest/icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="96x96" href="images/manifest/icon-96x96.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="images/manifest/icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="192x192" href="images/manifest/icon-192x192.png">
+    <meta name="msapplication-TileImage" content="images/manifest/icon-144x144.png">
+    <meta name="msapplication-TileColor" content="#3f51b5">
+    <meta name="msapplication-tap-highlight" content="no">
 
-    <head>
-        <title>Projet XML - Index</title>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
-        <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBLnaV51s-_cZ11LP4qBdPvnpeoxQBdOZ8&callback=initMap"
-                type="text/javascript"></script>
-        <link rel="stylesheet" href="bootstrap-4.0.0/dist/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
-        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
-        <script src="bootstrap-4.0.0/dist/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
-
-    </head>
-
-    <body>
-        <nav class="navbar navbar-toggleable-md navbar-expand-md navbar-dark bg-primary fixed-top" >
-            <!--style="margin-left: 10px; margin-right: 10px; border-radius: 10px; margin-top: 5px;"-->
-            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <a class="navbar-brand" href="#">Projet XML</a>
-            <div class="collapse navbar-collapse" id="navbarText">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item  active">
-                        <a class="nav-link" href="index.html">Index</a>
-                    </li>
-
-                    <li class=" nav-item dropdown"><a class=" nav-link dropdown-toggle" data-toggle="dropdown" href="carteCentreRech.html">Centres de recherche <span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="carteCentreRech.html#CarteCR">Carte</a></li>
-                            <li><a class="dropdown-item" href="carteCentreRech.html#InfoComplCR">Informations complémentaires</a></li>
-                        </ul>
-                    </li>
-                    <li class=" nav-item dropdown"><a class=" nav-link dropdown-toggle" data-toggle="dropdown" href="carteEquipe.html">Équipes <span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="carteEquipe.html#CarteE">Carte</a></li>
-                            <li><a class="dropdown-item" href="carteEquipe.html#InfoComplE">Équipes</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-        <div class="container-fluid">
-
-        </div>
-    </body>
+    <script>
+      window.Polymer = {rootPath: '/'};
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+          navigator.serviceWorker.register('service-worker.js', {
+            scope: Polymer.rootPath,
+          });
+        });
+      }
+    </script>
+    <script src="bower_components/webcomponentsjs/webcomponents-loader.js"></script>
+    <link rel="import" href="src/xml-app.html">
+    <style>
+      body {
+        margin: 0;
+        font-family: 'Roboto', 'Noto', sans-serif;
+        line-height: 1.5;
+        min-height: 100vh;
+        background-color: #eeeeee;
+      }
+    </style>
+  </head>
+  <body>
+    <xml-app></xml-app>
+    <noscript>
+      Merci d'activer Javascript sur ce site
+    </noscript>
+    <!-- Built with love using Polymer Starter Kit by Miagists -->
+  </body>
 </html>

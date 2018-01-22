@@ -20,6 +20,13 @@ var identifiant;
 //http://mondomaine.tld/?name=geoffrey&age=42
 
 $( document ).ready(function() {
-    identifiant = $_GET('idEq');
+    identifiant = $_GET('id');
     console.log(identifiant);
+    var date = new Date();
+    var annee = date.getFullYear();
+    var mois = ('0'+date.getMonth()+1).slice(-2);
+    var jour = ('0'+date.getDate()).slice(-2);
+    var dateNow = annee+"-"+mois+"-"+jour;
+    console.log(dateNow);
+    // doit apres avoir regarder que id de la personne est la bonne, le nom, prenom, nombre de publication, équipe dont il fait partie et s'il fait partie d'une équipe actuellement et liste des équipes dont il a fait partie
 });

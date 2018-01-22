@@ -8,9 +8,11 @@
                 type="text/javascript"></script>
         <link rel="stylesheet" href="bootstrap-4.0.0/dist/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
         <script src="jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+         <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
         <script src="bootstrap-4.0.0/dist/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
-        <script type="text/javascript" src="ficheEquipe.js"></script>
+        <script type="text/javascript" src="ficheCentre.js"></script>
 
     </head>
 
@@ -27,13 +29,13 @@
                         <a class="nav-link" href="index.html">Index</a>
                     </li>
 
-                    <li class=" nav-item dropdown"><a class=" nav-link dropdown-toggle" data-toggle="dropdown" href="carteCentreRech.html">Centres de recherche <span class="caret"></span></a>
+                    <li class=" nav-item dropdown active"><a class=" nav-link dropdown-toggle" data-toggle="dropdown" href="carteCentreRech.html">Centres de recherche <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="carteCentreRech.html#CarteCR">Carte</a></li>
                             <li><a class="dropdown-item" href="carteCentreRech.html#InfoComplCR">Informations complémentaires</a></li>
                         </ul>
                     </li>
-                    <li class=" nav-item dropdown active"><a class=" nav-link dropdown-toggle" data-toggle="dropdown" href="carteEquipe.html">Équipes <span class="caret"></span></a>
+                    <li class=" nav-item dropdown "><a class=" nav-link dropdown-toggle" data-toggle="dropdown" href="carteEquipe.html">Équipes <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="carteEquipe.html#CarteE">Carte</a></li>
                             <li><a class="dropdown-item" href="carteEquipe.html#InfoComplE">Équipes</a></li>
@@ -56,18 +58,17 @@
             </div>
             <div class="bg-info text-light">
                 <div id="infoPersPrincipal">
-                    <h5 style="text-align: center; padding-top: 10px" id="nomPrenPersoPrinc">Personne principal :  </h5><br>
+                    <h5 style="text-align: center; padding-top: 10px" >Responsables  :  </h5><br>
                     <div class="container-fluid" >
                         <div class="row" id="lien_structure_exterieure">
                         </div>
                     </div>
                 </div>
-                <div style="display: none" id="infoPers">
-                </div>
             </div> 
             <div>
                 <div class="container-fluid" id="resume-Eq">
-                    <h5 style="text-align: center;  margin-top: 10px">Résumé : </h5>
+                    <h5 style="text-align: center;  margin-top: 10px">Statistiques : </h5>
+                    <div id="chart_div" style="text-align: -webkit-center;"></div>
                 </div>
             </div>
             <div class="bg-info text-light">

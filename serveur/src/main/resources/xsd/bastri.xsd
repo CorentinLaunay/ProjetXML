@@ -1,0 +1,251 @@
+<?xml version="1.0"?>
+<xs:schema targetNamespace="http://ns.inria.fr/dsi/si/app/bastri"
+	   elementFormDefault="qualified"
+	   attributeFormDefault="unqualified"
+	   xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	   xmlns:bastri="http://ns.inria.fr/dsi/si/app/bastri"
+	   xmlns:resrc="http://ns.inria.fr/dsi/si/app/resources"
+	   version="1.0">
+
+
+ <xs:element name="structureInrias">
+    <xs:complexType> 
+      <xs:sequence> 
+	<xs:element ref="bastri:structureinria"    minOccurs ="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+    </xs:complexType>   
+  </xs:element>
+
+<xs:simpleType name ="researchStructureCategory">
+     <xs:annotation>
+      <xs:documentation xml:lang="en">
+	 All the structure categories as defined in the BASTRI
+      </xs:documentation>
+     </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="EP"/> 
+      <xs:enumeration value="Equipe"/>
+      <xs:enumeration value="Action exploratoire"/>
+    </xs:restriction>
+  </xs:simpleType>
+  
+ <xs:element name="structureinria">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr">
+	Définition d'une EPI
+      </xs:documentation>
+    </xs:annotation> 
+    <xs:complexType> 
+     <xs:sequence>     
+       <xs:element name="siidEquipeGroupe" type="xs:string"/>
+       <xs:element name="urlTeam" type="bastri:urlTeam" minOccurs="0" maxOccurs="unbounded"/>
+       <xs:element name="keywords" type="bastri:keywords" minOccurs="0" maxOccurs="unbounded"/>
+       <xs:element name="sigle" type="xs:string"/>
+       <xs:element name="sigle_html" type="xs:string"/>
+       <xs:element name="sigle_latex" type="xs:string"/>
+       <xs:element name="typestructure" type="xs:string"/>
+       <xs:element name="libellefr" type="xs:string" minOccurs="0"/>
+       <xs:element name="libelleen" type="xs:string" minOccurs="0"/>
+       <xs:element name="domaine" type="bastri:domaine" minOccurs="1" maxOccurs="2"/>
+       <xs:element name="theme" type="bastri:theme" minOccurs="1" maxOccurs="2"/>
+       
+       <xs:element name="date_creation" type="xs:date" minOccurs="0"/>
+       <xs:element name="date_fermeture" type="xs:string" minOccurs="0"/>
+       <xs:element name="entite" type="bastri:entite" minOccurs="1" maxOccurs="unbounded" />
+	   <xs:element name="idhal" type="xs:string" minOccurs="0"/>
+       <xs:element name="resume" type="bastri:resume" minOccurs="0" maxOccurs="2" />
+     </xs:sequence>
+     <xs:attribute name="siid" type="xs:string" />
+     <xs:attribute name="numnatstruct" type="xs:string" use="optional"/>
+    </xs:complexType>
+  </xs:element>
+
+
+  <xs:complexType name ="domaine">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+	<xs:attribute name="lang" type="xs:string"/>
+	<xs:attribute name="classification" type="xs:string"/>
+     <xs:attribute name="siid" type="xs:string" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+
+  <xs:complexType name ="urlTeam">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+	<xs:attribute name="lang" type="xs:string"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+
+  <xs:complexType name ="keywords">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+	<xs:attribute name="lang" type="xs:string"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <xs:complexType name ="theme">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+	<xs:attribute name="lang" type="xs:string"/>
+	<xs:attribute name="refid" type="xs:string"/>
+     <xs:attribute name="siid" type="xs:string" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <xs:complexType name ="resume">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+	<xs:attribute name="lang" type="xs:string"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+
+  <xs:complexType name ="corps">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+	<xs:attribute name="abbr" type="xs:string"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+
+  <xs:complexType name ="cri">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+	<xs:attribute name="siid" type="xs:string"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  
+  <xs:complexType name="entite">
+     <xs:sequence>
+       <xs:element name="sigle" type="xs:string"/>
+       <xs:element name="personne" type="bastri:personne"/>
+       <xs:element name="adressegeographique" type="bastri:adressegeographique"/>
+       <xs:element name="hebergeur" type="xs:string"/>
+       <xs:element name="typeentite"  type="xs:string" />
+       
+       <xs:element name="commentaire" type="xs:string"/>
+       <xs:element name="lien_structure_exterieure" type="bastri:lien_structure_exterieure" minOccurs="0" maxOccurs="unbounded"/>
+
+       
+     </xs:sequence>
+     <xs:attribute name="principal" type="xs:string"/>
+     <xs:attribute name="codestructure" type="xs:string"/>
+     <xs:attribute name="siid" type="xs:string" />
+  </xs:complexType>
+
+  
+  <xs:complexType name="personne">
+     <xs:sequence>
+       <xs:element name="nom" type="xs:string" minOccurs="0" /> 
+       <xs:element name="prenom" type="xs:string" minOccurs="0" />
+       <xs:element name="genre" type="xs:string" minOccurs="0" /> 
+       <xs:element name="date_naissance" type="xs:string" minOccurs="0" /> 
+       <xs:element name="corps" type="bastri:corps" minOccurs="0" />
+       
+     </xs:sequence>
+    <!--  <xs:attribute name="version" type="xs:string"/>   --> 
+     <xs:attribute name="gefid" type="xs:string"/>
+  </xs:complexType>
+
+  
+
+  <xs:complexType name="adressegeographique">
+     <xs:sequence>
+       <xs:element name="libelle" type="xs:string" minOccurs="0" /> 
+       <xs:element name="cri" type="bastri:cri" minOccurs="0" />
+       <xs:element name="ville" type="xs:string" minOccurs="0"  /> 
+       <xs:element name="adresse" type="xs:string" minOccurs="0"  /> 
+       <xs:element name="cp" type="xs:string" minOccurs="0" /> 
+       <xs:element name="latitude" type="xs:string" minOccurs="0"  /> 
+       <xs:element name="longitude" type="xs:string" minOccurs="0" /> 
+     </xs:sequence>
+     
+     <xs:attribute name="siid" type="xs:string" />
+     <xs:attribute name="refid" type="xs:string"/>
+     <xs:attribute name="url" type="xs:string"/>
+     <xs:attribute name="version" type="xs:string"/>
+  </xs:complexType>
+
+  <!--  
+  <xs:complexType name="hebergeur">
+    <xs:sequence>
+      <xs:element name="libelle" type="xs:string"/> 
+    </xs:sequence> 
+    <xs:attribute name="version" type="xs:string"/>
+  </xs:complexType>
+-->
+<!--
+  <xs:complexType name="typeentite">
+    <xs:sequence>
+      <xs:element name="libelle" type="xs:string"/> 
+    </xs:sequence> 
+  </xs:complexType>
+-->
+
+ <xs:complexType name="lien_structure_exterieure">
+     <xs:sequence>
+       <xs:element name="date_debut" type="xs:string"/> 
+       <xs:element name="date_fin" type="xs:string"/>
+       <xs:element name="type_lien" type="xs:string"/> 
+       <xs:element name="structure_exterieure" type="bastri:structure_exterieure"/> 
+     </xs:sequence>
+     <xs:attribute name="version" type="xs:string"/>
+  </xs:complexType>
+
+
+
+   <xs:complexType name="structure_exterieure">
+     <xs:sequence> 
+       <xs:element name="sigle" type="xs:string"/> 
+       <xs:element name="libelle" type="xs:string"/> 
+       <xs:element name="type" type="xs:string"/> 
+       <xs:element name="umr" type="bastri:umr" minOccurs="0"/> 
+     </xs:sequence>
+     <xs:attribute name="refid" type="xs:string"/>
+     <xs:attribute name="url" type="xs:string"/>
+     <xs:attribute name="version" type="xs:string"/>
+   </xs:complexType>
+
+   
+ <xs:complexType name="umr">
+   <xs:sequence> 
+       <xs:element name="numero" type="xs:string"/> 
+       <xs:element name="directeur" type="bastri:directeur"/> 
+        <xs:element name="composition" type="bastri:composition" minOccurs="0" maxOccurs="unbounded" />
+
+     </xs:sequence>
+   </xs:complexType>
+
+
+   <xs:complexType name="directeur">
+   <xs:sequence> 
+      <xs:element name="nom" type="xs:string"/> 
+       <xs:element name="prenom" type="xs:string"/>
+     </xs:sequence>
+   </xs:complexType>
+
+
+   <xs:complexType name ="composition">
+     <xs:simpleContent>
+      <xs:extension base="xs:string">
+	<xs:attribute name="refid" type="xs:string"/>
+	<xs:attribute name="url" type="xs:string"/>
+	<xs:attribute name="version" type="xs:string" use="optional"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+
+ 
+</xs:schema>

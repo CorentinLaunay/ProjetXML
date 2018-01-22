@@ -20,6 +20,7 @@ $( document ).ready(function() {
             var entite = eq['entite'];
             var siid = eq['@siid'];
             var nbP, adr, lat, long;
+            var idPerso;
             var tabNomPre = new Array();
             if (entite.length ){
                 entite.forEach(function(ent){
@@ -29,6 +30,7 @@ $( document ).ready(function() {
                         long = ent['adressegeographique']['longitude'];
                     }
                     if(ent['personne'] != null){
+                        idPerso = ent['personne']['@gefid'];
                         tabNomPre.push(new Array(ent['personne']['nom'], ent['personne']['prenom']));
                     }
                 });
@@ -40,21 +42,26 @@ $( document ).ready(function() {
                 long = entite['adressegeographique']['longitude'];
                 nbP = 1;
                 if(entite['personne'] != null){
+                    idPerso = entite['personne']['@gefid'];
                     tabNomPre.push(new Array(entite['personne']['nom'], entite['personne']['prenom']));
                 }
 
             }
 
-            //mettre date courante du systeme
-            if(dateF < '2018-01-01'){
+            var date = new Date();
+            var annee = date.getFullYear();
+            var mois = ('0'+date.getMonth()+1).slice(-2);
+            var jour = ('0'+date.getDate()).slice(-2);
+            var dateNow = annee+"-"+mois+"-"+jour;
+            if(dateF < dateNow){
                 ajouterContenuTabE(sigle, dateC, "OUI", nbP, lat, long); 
-                ajouterContenuE(libfr, dateC, dateF, adr, siid);
+                ajouterContenuE(libfr, dateC, dateF, adr, siid, idPerso);
             }
             else{
                 ajouterContenuTabE(sigle, dateC, "NON", nbP, lat, long);
-                ajouterContenuE(libfr, dateC, dateF, adr, siid);
+                ajouterContenuE(libfr, dateC, dateF, adr, siid, idPerso);
             }
-            ajouterContenuEqTab(tabNomPre, siid);
+            ajouterContenuEqTab(tabNomPre, idPerso);
 
         });
         initialiser();
@@ -88,15 +95,15 @@ function initialiser(centreLat, centreLng, unZoom) {
         var lat, long;
         var entite = ent['entite'];
         if (entite.length ){
-                entite.forEach(function(ent){
-                    if(ent['@principal'] == "1"){
-                        lat = ent['adressegeographique']['latitude'];
-                        long = ent['adressegeographique']['longitude'];
-                    }});
-            }else{
-                lat = entite['adressegeographique']['latitude'];
-                long = entite['adressegeographique']['longitude'];
-            }
+            entite.forEach(function(ent){
+                if(ent['@principal'] == "1"){
+                    lat = ent['adressegeographique']['latitude'];
+                    long = ent['adressegeographique']['longitude'];
+                }});
+        }else{
+            lat = entite['adressegeographique']['latitude'];
+            long = entite['adressegeographique']['longitude'];
+        }
         var marker = new google.maps.Marker({
             position: new google.maps.LatLng(lat, long),
             map: carte,
@@ -143,24 +150,24 @@ window.eqfeed_callback = function(results) {
 } */
 
 
-function ajouterContenuE(libfrE, DateO, DateF, adr, idEq){
+function ajouterContenuE(libfrE, DateO, DateF, adr, idEq, idP){
     var nom = "Cazals";
     var prenom = "Frederic";
     var nbPub = "2";
     var lienClick = "ficheEquipe.html?idEq="+idEq+"&lang=";
-    var stringHTML = "<div class=\"col-6\"><br><h5>"+libfrE+"</h5><p><b>Date ouverture : </b>"+DateO+"  <br><b>Date Fermeture : </b>"+DateF+"<br><b>Adresse :</b> <br> "+adr+" <br><b>Plus d'informations : </b><br><div class=\"row\"><div class=\"col-6\"><a class=\"btn btn-secondary btn-block\" href="+lienClick+"fr"+">FR</a></div><div class=\"col-6\"><a class=\"btn btn-secondary btn-block\" href="+lienClick+"en"+">EN</a></div></div></p><table class=\"table table-responsive table-hover table-bordered  table-sm table-inverse\" style=\"text-align: center; color: white\"><thead><tr><th>Nom</th><th>Prénom</th><th>Nombre de publication</th><th>Rapport</th></tr></thead> <tbody id=\"contenuIComplTabE"+idEq+"\"></tbody></table></div>";
+    var stringHTML = "<div class=\"col-6\"><br><h5>"+libfrE+"</h5><p><b>Date ouverture : </b>"+DateO+"  <br><b>Date Fermeture : </b>"+DateF+"<br><b>Adresse :</b> <br> "+adr+" <br><b>Plus d'informations : </b><br><div class=\"row\"><div class=\"col-6\"><a class=\"btn btn-secondary btn-block\" href="+lienClick+"fr"+">FR</a></div><div class=\"col-6\"><a class=\"btn btn-secondary btn-block\" href="+lienClick+"en"+">EN</a></div></div></p><table class=\"table table-responsive table-hover table-bordered  table-sm table-inverse\" style=\"text-align: center; color: white\"><thead><tr><th>Nom</th><th>Prénom</th><th>Nombre de publication</th><th>Rapport</th></tr></thead> <tbody id=\"contenuIComplTabE"+idP+"\"></tbody></table></div>";
     $('#contenuIComplE').append(stringHTML);
 }
 
-function ajouterContenuEqTab(noms, idEq){
+function ajouterContenuEqTab(noms, id){
     var stringHTML = "";
     var nbPub = "2"; //a faire sauter car on veux savoir le nombre de publication total et pas que dans une équipe
-    var lienClick = "fichePerso.html?idEq="+idEq;
+    var lienClick = "fichePerso.html?id="+id;
     noms.forEach(function (nom){ //pour l'url il faut regarder comment est formule un $_Get
         stringHTML += "<tr><th scope=\"row\">"+nom[0]+"</th><td>"+nom[1]+"</td><td>"+nbPub+"</td><td><a style=\"color: white;\" href="+lienClick+">Cliquez ici</a></td></tr>";
     });
 
-    $('#contenuIComplTabE'+idEq).append(stringHTML);
+    $('#contenuIComplTabE'+id).append(stringHTML);
 }
 
 function ajouterContenuTabE(libfrE, dateO, ferm, nbMembE, latE, longE){
