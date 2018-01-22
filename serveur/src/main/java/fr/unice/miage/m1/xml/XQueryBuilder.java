@@ -4,8 +4,10 @@ import org.basex.core.cmd.XQuery;
 import org.inria.fr.ns.cr.Crs;
 import org.inria.fr.ns.cr.Crs.Cr;
 import org.inria.fr.ns.cr.Crs.Cr.Responsable;
-import org.inria.fr.ns.cr.Crs.Cr.Responsable.Personne;
-import org.inria.fr.ns.sr.*;
+import org.inria.fr.ns.sr.Entite;
+import org.inria.fr.ns.sr.StructuresInria;
+import org.inria.fr.ns.sr.StructureInria;
+
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -13,6 +15,7 @@ import javax.xml.bind.Unmarshaller;
 
 import java.io.StringReader;
 import java.util.List;
+import java.util.ArrayList;
 
 public class XQueryBuilder {
 
@@ -119,6 +122,66 @@ public class XQueryBuilder {
 		}
 
 		return null;
+	}
+
+	public List<StructureInria> getEquipesParCentreDeRecherche(String centerId) {
+		ArrayList<StructureInria> outputListEntite = new ArrayList<StructureInria>();
+		String siid = getCenter(centerId).getSiid();
+		XQuery query = new XQuery("doc(\"src/main/resources/XML/bastri.xml\")/root()");
+		try {
+			JAXBContext jaxbContext = JAXBContext.newInstance(StructuresInria.class);
+
+			Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+
+			Database db = (Database) this.database;
+			String queryResult = db.execute(query);
+			StringReader reader = new StringReader(queryResult);
+			StructuresInria cris = (StructuresInria) unmarshaller.unmarshal(reader);
+			List<StructureInria> listCris = cris.getStructureinria();
+
+			for (StructureInria structure : listCris) {
+				List<Entite> listdesEquipes = structure.getEntite();
+				for(Entite entite : listdesEquipes) {
+					if(entite.getAdressegeographique().getCri().getSiid().equals(siid)) {
+						outputListEntite.add(structure);
+					}
+				}
+			}
+			return outputListEntite;
+		} catch (JAXBException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public int getNombreEquipeParCentreDeRecherche(String centerId) {
+		ArrayList<StructureInria> outputListEntite = new ArrayList<StructureInria>();
+		String siid = getCenter(centerId).getSiid();
+		XQuery query = new XQuery("doc(\"src/main/resources/XML/bastri.xml\")/root()");
+		try {
+			JAXBContext jaxbContext = JAXBContext.newInstance(StructuresInria.class);
+
+			Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+
+			Database db = (Database) this.database;
+			String queryResult = db.execute(query);
+			StringReader reader = new StringReader(queryResult);
+			StructuresInria   cris = (StructuresInria) unmarshaller.unmarshal(reader);
+			List<StructureInria> listCris = cris.getStructureinria();
+
+			for (StructureInria structure : listCris) {
+				List<Entite> listdesEquipes = structure.getEntite();
+				for(Entite entite : listdesEquipes) {
+					if(entite.getAdressegeographique().getCri().getSiid().equals(siid)) {
+						outputListEntite.add(structure);
+					}
+				}
+			}
+			return outputListEntite.size();
+		} catch (JAXBException e) {
+			e.printStackTrace();
+		}
+		return 0;
 	}
 
 }

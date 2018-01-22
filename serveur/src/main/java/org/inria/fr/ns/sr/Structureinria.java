@@ -2,7 +2,7 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.11 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2018.01.22 à 12:17:27 AM CET 
+// Généré le : 2018.01.22 à 04:09:03 PM CET 
 //
 
 
@@ -24,37 +24,43 @@ import fr.unice.miage.m1.adapters.DateAdapter;
 
 
 /**
- * <p>Classe Java pour anonymous complex type.
+ * 
+ * 	Définition d'une EPI
+ *       
+ * 
+ * <p>Classe Java pour structureinria element declaration.
  * 
  * <p>Le fragment de schéma suivant indique le contenu attendu figurant dans cette classe.
  * 
  * <pre>
- * &lt;complexType&gt;
- *   &lt;complexContent&gt;
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
- *       &lt;sequence&gt;
- *         &lt;element name="siidEquipeGroupe" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
- *         &lt;element name="urlTeam" type="{http://ns.inria.fr/dsi/si/app/bastri}urlTeam" maxOccurs="unbounded" minOccurs="0"/&gt;
- *         &lt;element name="keywords" type="{http://ns.inria.fr/dsi/si/app/bastri}keywords" maxOccurs="unbounded" minOccurs="0"/&gt;
- *         &lt;element name="sigle" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
- *         &lt;element name="sigle_html" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
- *         &lt;element name="sigle_latex" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
- *         &lt;element name="typestructure" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
- *         &lt;element name="libellefr" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
- *         &lt;element name="libelleen" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
- *         &lt;element name="domaine" type="{http://ns.inria.fr/dsi/si/app/bastri}domaine" maxOccurs="2"/&gt;
- *         &lt;element name="theme" type="{http://ns.inria.fr/dsi/si/app/bastri}theme" maxOccurs="2"/&gt;
- *         &lt;element name="date_creation" type="{http://www.w3.org/2001/XMLSchema}date" minOccurs="0"/&gt;
- *         &lt;element name="date_fermeture" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
- *         &lt;element name="entite" type="{http://ns.inria.fr/dsi/si/app/bastri}entite" maxOccurs="unbounded"/&gt;
- *         &lt;element name="idhal" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
- *         &lt;element name="resume" type="{http://ns.inria.fr/dsi/si/app/bastri}resume" maxOccurs="2" minOccurs="0"/&gt;
- *       &lt;/sequence&gt;
- *       &lt;attribute name="siid" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
- *       &lt;attribute name="numnatstruct" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
- *     &lt;/restriction&gt;
- *   &lt;/complexContent&gt;
- * &lt;/complexType&gt;
+ * &lt;element name="structureinria"&gt;
+ *   &lt;complexType&gt;
+ *     &lt;complexContent&gt;
+ *       &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *         &lt;sequence&gt;
+ *           &lt;element name="siidEquipeGroupe" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *           &lt;element name="urlTeam" type="{http://ns.inria.fr/dsi/si/app/bastri}urlTeam" maxOccurs="unbounded" minOccurs="0"/&gt;
+ *           &lt;element name="keywords" type="{http://ns.inria.fr/dsi/si/app/bastri}keywords" maxOccurs="unbounded" minOccurs="0"/&gt;
+ *           &lt;element name="sigle" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *           &lt;element name="sigle_html" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *           &lt;element name="sigle_latex" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *           &lt;element name="typestructure" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *           &lt;element name="libellefr" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
+ *           &lt;element name="libelleen" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
+ *           &lt;element name="domaine" type="{http://ns.inria.fr/dsi/si/app/bastri}domaine" maxOccurs="2"/&gt;
+ *           &lt;element name="theme" type="{http://ns.inria.fr/dsi/si/app/bastri}theme" maxOccurs="2"/&gt;
+ *           &lt;element name="date_creation" type="{http://www.w3.org/2001/XMLSchema}date" minOccurs="0"/&gt;
+ *           &lt;element name="date_fermeture" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
+ *           &lt;element name="entite" type="{http://ns.inria.fr/dsi/si/app/bastri}entite" maxOccurs="unbounded"/&gt;
+ *           &lt;element name="idhal" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
+ *           &lt;element name="resume" type="{http://ns.inria.fr/dsi/si/app/bastri}resume" maxOccurs="2" minOccurs="0"/&gt;
+ *         &lt;/sequence&gt;
+ *         &lt;attribute name="siid" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+ *         &lt;attribute name="numnatstruct" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+ *       &lt;/restriction&gt;
+ *     &lt;/complexContent&gt;
+ *   &lt;/complexType&gt;
+ * &lt;/element&gt;
  * </pre>
  * 
  * 
@@ -79,7 +85,7 @@ import fr.unice.miage.m1.adapters.DateAdapter;
     "resume"
 })
 @XmlRootElement(name = "structureinria")
-public class Structureinria
+public class StructureInria
     implements Serializable
 {
 

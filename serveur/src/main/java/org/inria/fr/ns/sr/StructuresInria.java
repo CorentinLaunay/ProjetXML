@@ -2,7 +2,7 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.11 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2018.01.22 à 12:17:27 AM CET 
+// Généré le : 2018.01.22 à 04:09:03 PM CET 
 //
 
 
@@ -18,20 +18,22 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Classe Java pour anonymous complex type.
+ * <p>Classe Java pour structureInrias element declaration.
  * 
  * <p>Le fragment de schéma suivant indique le contenu attendu figurant dans cette classe.
  * 
  * <pre>
- * &lt;complexType&gt;
- *   &lt;complexContent&gt;
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
- *       &lt;sequence&gt;
- *         &lt;element ref="{http://ns.inria.fr/dsi/si/app/bastri}structureinria" maxOccurs="unbounded" minOccurs="0"/&gt;
- *       &lt;/sequence&gt;
- *     &lt;/restriction&gt;
- *   &lt;/complexContent&gt;
- * &lt;/complexType&gt;
+ * &lt;element name="structureInrias"&gt;
+ *   &lt;complexType&gt;
+ *     &lt;complexContent&gt;
+ *       &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *         &lt;sequence&gt;
+ *           &lt;element ref="{http://ns.inria.fr/dsi/si/app/bastri}structureinria" maxOccurs="unbounded" minOccurs="0"/&gt;
+ *         &lt;/sequence&gt;
+ *       &lt;/restriction&gt;
+ *     &lt;/complexContent&gt;
+ *   &lt;/complexType&gt;
+ * &lt;/element&gt;
  * </pre>
  * 
  * 
@@ -41,12 +43,12 @@ import javax.xml.bind.annotation.XmlType;
     "structureinria"
 })
 @XmlRootElement(name = "structureInrias")
-public class StructureInrias
+public class StructuresInria
     implements Serializable
 {
 
     private final static long serialVersionUID = 1L;
-    protected List<Structureinria> structureinria;
+    protected List<StructureInria> structureinria;
 
     /**
      * Gets the value of the structureinria property.
@@ -66,13 +68,13 @@ public class StructureInrias
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link Structureinria }
+     * {@link StructureInria }
      * 
      * 
      */
-    public List<Structureinria> getStructureinria() {
+    public List<StructureInria> getStructureinria() {
         if (structureinria == null) {
-            structureinria = new ArrayList<Structureinria>();
+            structureinria = new ArrayList<StructureInria>();
         }
         return this.structureinria;
     }

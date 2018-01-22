@@ -95,52 +95,6 @@
 		<finalName>project-web-rest</finalName>
 		<outputDirectory>${project.build.directory}/${project.build.finalName}/WEB-INF/classes</outputDirectory>
 		<plugins>
-
-			<!-- Generate using jaxb2 mojo plugin (works, but less used)
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>jaxb2-maven-plugin</artifactId>
-				<version>2.3.1</version>
-				<executions>
-					<execution>
-						<id>bastri</id>
-						<goals>
-							<goal>xjc</goal>
-						</goals>
-						<configuration>
-							<sources>
-								<source>src/main/xsd/bastri.xsd</source>
-							</sources>
-
-							<packageName>org.inria.fr.ns.sr</packageName>
-
-							<xjbSources>
-								<xjbSource>src/main/resources/xsd/date.xjb</xjbSource>
-							</xjbSources>
-						</configuration>
-					</execution>
-					<execution>
-						<id>bastriCris</id>
-						<goals>
-							<goal>xjc</goal>
-						</goals>
-						<configuration>
-							<sources>
-								<source>src/main/resources/xsd/bastriCris.xsd</source>
-							</sources>
-
-							<packageName>org.inria.fr.ns.cr</packageName>
-
-							<xjbSources>
-								<xjbSource>src/main/resources/xsd/date.xjb</xjbSource>
-							</xjbSources>
-
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>-->
-
-			<!-- Generate using maven-jaxb2 plugin -->
 			<plugin>
 				<groupId>org.jvnet.jaxb2.maven2</groupId>
 				<artifactId>maven-jaxb2-plugin</artifactId>
@@ -167,10 +121,10 @@
 							<bindingDirectory>src/main/resources/xjb</bindingDirectory>
 							<!-- Bind our date -->
 							<bindingIncludes>
-								<include>date.xjb</include>
+								<include>bastri.xjb</include>
 							</bindingIncludes>
 							<bindingExcludes>
-								<exclude>*.xsd</exclude>
+								<exclude>bastri.xsd</exclude>
 							</bindingExcludes>
 						</configuration>
 					</execution>
@@ -192,10 +146,10 @@
 							<generateDirectory>${basedir}/src/main/java</generateDirectory>
 							<bindingDirectory>src/main/resources/xjb</bindingDirectory>
 							<bindingIncludes>
-								<include>date.xjb</include>
+								<include>bastriCris.xjb</include>
 							</bindingIncludes>
 							<bindingExcludes>
-								<exclude>*.xsd</exclude>
+								<exclude>bastri.xsd</exclude>
 							</bindingExcludes>
 						</configuration>
 					</execution>
