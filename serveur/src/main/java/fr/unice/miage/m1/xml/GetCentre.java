@@ -63,4 +63,13 @@ public class GetCentre {
         return builder.getNombreEquipeParCentreDeRecherche(id);
     }
 
+    @GET
+    @Path("/equipes/total/")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<StructureInria> getEquipes(@Context ServletContext servletContext) {
+        // Grabbing current builder (who has access to database) from servletContext
+        XQueryBuilder builder = (XQueryBuilder) servletContext.getAttribute("builder");
+        return builder.getEquipes();
+    }
+
 }

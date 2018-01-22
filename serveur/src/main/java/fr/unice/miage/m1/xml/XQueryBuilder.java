@@ -184,4 +184,34 @@ public class XQueryBuilder {
 		return 0;
 	}
 
+
+
+	public List<StructureInria> getEquipes() {
+		ArrayList<StructureInria> outputListEntite = new ArrayList<StructureInria>();
+
+		XQuery query = new XQuery("doc(\"src/main/resources/XML/bastri.xml\")/root()");
+		try {
+			JAXBContext jaxbContext = JAXBContext.newInstance(StructuresInria.class);
+
+			Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+
+			Database db = (Database) this.database;
+			String queryResult = db.execute(query);
+			StringReader reader = new StringReader(queryResult);
+			StructuresInria cris = (StructuresInria) unmarshaller.unmarshal(reader);
+			List<StructureInria> listCris = cris.getStructureinria();
+
+			for (StructureInria structure : listCris) {
+				List<Entite> listdesEquipes = structure.getEntite();
+				for(Entite entite : listdesEquipes) {
+						outputListEntite.add(structure);
+				}
+			}
+			return outputListEntite;
+		} catch (JAXBException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 }
