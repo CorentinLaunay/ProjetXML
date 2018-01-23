@@ -23,7 +23,7 @@ public class GetCentre {
     @Path("/list")
     @Produces(MediaType.APPLICATION_JSON)
     public Crs getCentreList(@Context ServletContext servletContext) {
-        // Grabbing current builder (who has access to database) from servletContext
+
         XQueryBuilder builder = (XQueryBuilder) servletContext.getAttribute("builder");
         return builder.getCenters();
     }
@@ -40,7 +40,7 @@ public class GetCentre {
     @Path("/responsables/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public List<Responsable> getResponsablesCentre(@Context ServletContext servletContext, @PathParam("id") String id) {
-        // Grabbing current builder (who has access to database) from servletContext
+
         XQueryBuilder builder = (XQueryBuilder) servletContext.getAttribute("builder");
         return builder.getResponsablesCentre(id);
     }
@@ -49,7 +49,7 @@ public class GetCentre {
     @Path("/equipes/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public List<StructureInria> getEquipesParCentreDeRecherche(@Context ServletContext servletContext, @PathParam("id") String id) {
-        // Grabbing current builder (who has access to database) from servletContext
+
         XQueryBuilder builder  = (XQueryBuilder) servletContext.getAttribute("builder");
         return builder.getEquipesParCentreDeRecherche(id);
     }
@@ -58,7 +58,7 @@ public class GetCentre {
     @Path("/equipes/nombre/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public int getNombreEquipeParCentreDeRecherche(@Context ServletContext servletContext, @PathParam("id") String id) {
-        // Grabbing current builder (who has access to database) from servletContext
+
         XQueryBuilder builder = (XQueryBuilder) servletContext.getAttribute("builder");
         return builder.getNombreEquipeParCentreDeRecherche(id);
     }
@@ -67,9 +67,16 @@ public class GetCentre {
     @Path("/equipes/total/")
     @Produces(MediaType.APPLICATION_JSON)
     public List<StructureInria> getEquipes(@Context ServletContext servletContext) {
-        // Grabbing current builder (who has access to database) from servletContext
         XQueryBuilder builder = (XQueryBuilder) servletContext.getAttribute("builder");
         return builder.getEquipes();
+    }
+
+    @GET
+    @Path("/personne/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<StructureInria> getPersonne(@Context ServletContext servletContext,  @PathParam("id") String id) {
+        XQueryBuilder builder = (XQueryBuilder) servletContext.getAttribute("builder");
+        return builder.getPersonne(id);
     }
 
 }

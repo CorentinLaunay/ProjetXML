@@ -30,7 +30,7 @@
 
 		<init-param>
 			<param-name>com.sun.jersey.spi.container.ContainerResponseFilters</param-name>
-			<param-value>fr.unice.miage.m1.CorsFilter</param-value>
+			<param-value>fr.unice.miage.m1.crFilter</param-value>
 		</init-param>
 	</servlet>
 

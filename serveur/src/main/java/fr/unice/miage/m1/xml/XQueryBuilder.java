@@ -214,4 +214,37 @@ public class XQueryBuilder {
 		return null;
 	}
 
+	public List<StructureInria> getPersonne(String id) {
+		ArrayList<StructureInria> outputListEntite = new ArrayList<StructureInria>();
+
+		XQuery query = new XQuery("doc(\"src/main/resources/XML/bastri.xml\")/root()");
+		try {
+			JAXBContext jaxbContext = JAXBContext.newInstance(StructuresInria.class);
+			Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+
+			Database db = (Database) this.database;
+			String queryResult = db.execute(query);
+			StringReader reader = new StringReader(queryResult);
+			StructuresInria cris = (StructuresInria) unmarshaller.unmarshal(reader);
+			List<StructureInria> listCris = cris.getStructureinria();
+			System.out.println(id);
+			for (StructureInria structure : listCris) {
+				List<Entite> listdesEquipes = structure.getEntite();
+				for(Entite entite : listdesEquipes) {
+					System.out.println(entite.getPersonne().getGefid());
+					if (entite.getPersonne().getGefid() == null) {}
+					else if(entite.getPersonne().getGefid().equals(id)) {
+                        outputListEntite.add(structure);
+
+
+                    }
+				}
+			}
+			return outputListEntite;
+		} catch (JAXBException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 }

@@ -10,11 +10,6 @@ public class Database {
 		this.context = context;
 	}
 
-	/**
-	 * Execute the query and send the result
-	 * @param query
-	 * @return
-	 */
 	public String execute(XQuery query){
 		try {
 			return query.execute(context);

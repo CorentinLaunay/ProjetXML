@@ -11,9 +11,7 @@ public class DateTimeAdapter extends XmlAdapter<String, LocalDateTime> {
         return LocalDateTime.parse(value, formatter);
     }
 
-    @Override
-    public String marshal(LocalDateTime v) {
-        // TODO : Implement
-        return null;
+    @Override public String marshal(LocalDateTime value) {
+        return value.toString();
     }
 }

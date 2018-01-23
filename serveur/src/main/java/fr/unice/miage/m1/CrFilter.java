@@ -7,15 +7,14 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.ext.Provider;
 
 @Provider
-public class CorsFilter implements ContainerResponseFilter {
+public class CrFilter implements ContainerResponseFilter {
 
     @Override
     public void filter(ContainerRequestContext requestContext,
                        ContainerResponseContext responseContext) {
-        // Grab response headers
+
         MultivaluedMap<String, Object> headers = responseContext.getHeaders();
 
-        // Push our cors attributes
         headers.add(
                 "Access-Control-Allow-Origin", "*");
         headers.add(

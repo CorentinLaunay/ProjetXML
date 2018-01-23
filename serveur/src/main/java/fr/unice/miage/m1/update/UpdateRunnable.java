@@ -10,10 +10,6 @@ import java.nio.channels.ReadableByteChannel;
 import java.util.Calendar;
 
 public class UpdateRunnable implements Runnable {
-	/**
-	 * Check if xsd path exists create if not
-	 * @return true/false create ok
-	 */
 	private synchronized boolean checkXSDRepository() {
 		File repository = new File("src/main/resources/xsd");
 		return repository.exists() || repository.mkdirs();
@@ -46,13 +42,6 @@ public class UpdateRunnable implements Runnable {
 			e.printStackTrace();
 		}
 	}
-
-	/**
-	 * Get current xsd on server
-	 * @param url xsd url
-	 * @param xsdPath xsd local path
-	 * @throws IOException local xsd not found
-	 */
 	private synchronized void updateBastri(String url, String xsdPath) throws IOException {
 		ReadableByteChannel input = Channels.newChannel(new URL(url).openStream());
 		FileOutputStream output = new FileOutputStream(xsdPath);
