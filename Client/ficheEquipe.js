@@ -14,7 +14,7 @@ function $_GET(param) {
 }
 
 var identifiant, lang;
-var tabSiidPrec;
+var tabSiidPrec, tabSiidPrecCarte;
 var Equipe;
 //var $_GET = $_GET();
 
@@ -235,6 +235,7 @@ $( document ).ready(function() {
                         }
                     });
                 }else{
+                    entite = entite[0];
                     adr = entite['adressegeographique']['libelle']+" "+ entite['adressegeographique']['adresse']+" "+entite['adressegeographique']['cp']+" "+entite['adressegeographique']['ville'];
                     lat = entite['adressegeographique']['latitude'];
                     long = entite['adressegeographique']['longitude'];
@@ -281,7 +282,7 @@ $( document ).ready(function() {
                                 }
                             });
                         }else{
-                            var lienExt = ent['lienStructureExterieure'];
+                            var lienExt = entite['lienStructureExterieure'];
                             if(lienExt['typeLien'] == 'Partenaire'){
                                 var libPart = lienExt['structureExterieure']['libelle']; 
                                 var typePart = lienExt['structureExterieure']['type'];
@@ -367,7 +368,7 @@ function initialiser(centreLat, centreLng, unZoom) {
 
     var carte = new google.maps.Map(document.getElementById("carte"), options);
     Equipe.forEach(function(ent) {
-        if(tabSiidPrecCarte && ent['siid'] != tabSiidPrecCarte[0]){
+        if(tabSiidPrecCarte && ent['siid'] != tabSiidPrecCarte[0] && ent['siid'] == identifiant){
             var lib = ent['libellefr'];
             var lat, long;
             var entite = ent['entite'];

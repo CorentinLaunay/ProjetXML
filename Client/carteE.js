@@ -156,16 +156,15 @@ window.eqfeed_callback = function(results) {
 function ajouterContenuE(libfrE, DateO, DateF, adr, idEq, idP){
     var nbPub = "2";
     var lienClick = "ficheEquipe.html?idEq="+idEq+"&lang=";
-    var stringHTML = "<div class=\"col-6\"><br><h5>"+libfrE+"</h5><p><b>Date ouverture : </b>"+DateO+"  <br><b>Date Fermeture : </b>"+DateF+"<br><b>Adresse :</b> <br> "+adr+" <br><b>Plus d'informations : </b><br><div class=\"row\"><div class=\"col-6\"><a class=\"btn btn-secondary btn-block\" href="+lienClick+"fr"+">FR</a></div><div class=\"col-6\"><a class=\"btn btn-secondary btn-block\" href="+lienClick+"en"+">EN</a></div></div></p><table class=\"table table-responsive table-hover table-bordered  table-sm table-inverse\" style=\"text-align: center; color: white\"><thead><tr><th>Nom</th><th>Prénom</th><th>Nombre de publication</th><th>Rapport</th></tr></thead> <tbody id=\"contenuIComplTabE"+idEq+"\"></tbody></table></div>";
+    var stringHTML = "<div class=\"col-6\"><br><h5>"+libfrE+"</h5><p><b>Date ouverture : </b>"+DateO+"  <br><b>Date Fermeture : </b>"+DateF+"<br><b>Adresse :</b> <br> "+adr+" <br><b>Plus d'informations : </b><br><div class=\"row\"><div class=\"col-6\"><a class=\"btn btn-secondary btn-block\" href="+lienClick+"fr"+">FR</a></div><div class=\"col-6\"><a class=\"btn btn-secondary btn-block\" href="+lienClick+"en"+">EN</a></div></div></p><table class=\"table table-responsive table-hover table-bordered  table-sm table-inverse\" style=\"text-align: center; color: white\"><thead><tr><th>Nom</th><th>Prénom</th><th>Informations</th></tr></thead> <tbody id=\"contenuIComplTabE"+idEq+"\"></tbody></table></div>";
     $('#contenuIComplE').append(stringHTML);
 }
 
 function ajouterContenuEqTab(noms, id, idEq){
     var stringHTML = "";
-    var nbPub = "2"; //a faire sauter car on veux savoir le nombre de publication total et pas que dans une équipe
     var lienClick = "fichePerso.html?id="+id;
     noms.forEach(function (nom){ //pour l'url il faut regarder comment est formule un $_Get
-        stringHTML += "<tr><th scope=\"row\">"+nom[0]+"</th><td>"+nom[1]+"</td><td>"+nbPub+"</td><td><a style=\"color: white;\" href="+lienClick+">Cliquez ici</a></td></tr>";
+        stringHTML += "<tr><th scope=\"row\">"+nom[0]+"</th><td>"+nom[1]+"</td><td><a style=\"color: white;\" href="+lienClick+">Cliquez ici</a></td></tr>";
     });
 
     $('#contenuIComplTabE'+idEq).append(stringHTML);
