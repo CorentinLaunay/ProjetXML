@@ -2,7 +2,7 @@ var Cris, JsEq;
 var listP = new Array();
 var listE = new Array();
 var listId = new Array();
-
+var tabStat = new Array();
 var j = 0;
 $( document ).ready(function() {
 
@@ -12,10 +12,11 @@ $( document ).ready(function() {
             $.each(cris,function(i, cr ) {
                 var siid = cr.siid;
                 var idgef = cr.idgef;
+                var lib = cr.libelle;
                 $.get( "http://localhost:8082/api/centres/equipes/nombre/"+idgef, function( nb ) {
                     ajouterNbEquipe(siid, nb);
-                });
-                var lib = cr.libelle;
+                    tabStat.push(new Array(lib, nb));
+                }); 
                 var lat = cr.adressegeographique.latitude;
                 var long = cr.adressegeographique.longitude;
                 var dateOuv = cr.dateOuverture.dayOfWeek + " " + cr.dateOuverture.dayOfMonth + " " + cr.dateOuverture.month + " " + cr.dateOuverture.year;
@@ -32,9 +33,12 @@ $( document ).ready(function() {
             });
             Cris = cris;
             initialiser();
+            
         });
-
+        //console.log(tabStat);
+        loadChart();
     });
+    
 });
 
 
@@ -143,4 +147,35 @@ function nbEFonctIdCr( idCr, nbP){
     }else{
         listE[idCr] = nbP; 
     }
+}
+function loadChart(){
+    // Load the Visualization API and the corechart package.
+    google.charts.load('current', {'packages':['corechart']});
+
+    // Set a callback to run when the Google Visualization API is loaded.
+    google.charts.setOnLoadCallback(drawChart);   
+}
+
+// Callback that creates and populates a data table,
+// instantiates the pie chart, passes in the data and
+// draws it.
+function drawChart() {
+
+    // Create the data table.
+    var data = new google.visualization.DataTable();
+    data.addColumn('string', 'Topping');
+    data.addColumn('number', 'Slices');
+    tabStat.forEach(function(st){
+        data.addRows([[st[0], st[1]]]);
+    });
+
+
+    // Set chart options
+    var options = {'title':'Répartition des équipes par Centre de recherche',
+
+                   'height':400};
+
+    // Instantiate and draw our chart, passing in some options.
+    var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+    chart.draw(data, options);
 }

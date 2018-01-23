@@ -120,7 +120,6 @@ function chargementR(reqE){
             });
             if(crid == siid){
                 eq["theme"].forEach(function(th){
-                    console.log(th);
                     if (th["lang"] == "fr"){
                         var idTh =  th["siid"];
                         var txtTh =  th["value"];
