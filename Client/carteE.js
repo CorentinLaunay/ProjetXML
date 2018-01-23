@@ -2,70 +2,68 @@
 var centreLng = 2.350879;*/
 
 var Equipe;
+var tabSiidPrec;
 
 $( document ).ready(function() {
-
-    var requestURLEquipe = 'bastri.json';
-    var requestE = new XMLHttpRequest();
-    requestE.open('GET', requestURLEquipe);
-    requestE.responseType = 'json';
-    requestE.send();
-    requestE.onload = function() {
-        Equipe = requestE.response;
-        Equipe['structureinria'].forEach(function(eq){
+    $.get( "http://localhost:8082/api/centres/equipes/total/", function( data ) {
+        $.each(data,function(i, eq ) {
             var libfr = eq['libellefr'];
             var sigle = eq['sigle'];
-            var dateC = eq['date_creation'];
-            var dateF = eq['date_fermeture'];
+            var dateC = eq['dateCreation'];
+            var dateF = eq['dateFermeture'];
             var entite = eq['entite'];
-            var siid = eq['@siid'];
+            var siid = eq.siid;
             var nbP, adr, lat, long;
-            var idPerso;
+            var idPerso, idEnt;
             var tabNomPre = new Array();
-            if (entite.length ){
-                entite.forEach(function(ent){
-                    if(ent['@principal'] == "1"){
+            if (tabSiidPrec && tabSiidPrec[0] != siid){
+                if (entite.length > 1 ){
+                    entite.forEach(function(ent){
+                        if(ent['principal'] != null){
+                            adr = ent['adressegeographique']['libelle']+" "+ ent['adressegeographique']['adresse']+" "+ent['adressegeographique']['cp']+" "+ent['adressegeographique']['ville'];
+                            lat = ent['adressegeographique']['latitude'];
+                            long = ent['adressegeographique']['longitude'];
+                        }
+                        if(ent['personne'] != null){
+                            idPerso = ent['personne']['gefid'];
+                            tabNomPre.push(new Array(ent['personne']['nom'], ent['personne']['prenom']));
+                        }
+                        idEnt = ent['siid'];
+                    });
+                    nbP = entite.length;
+                }else{
+                    entite.forEach(function(ent){     
                         adr = ent['adressegeographique']['libelle']+" "+ ent['adressegeographique']['adresse']+" "+ent['adressegeographique']['cp']+" "+ent['adressegeographique']['ville'];
                         lat = ent['adressegeographique']['latitude'];
                         long = ent['adressegeographique']['longitude'];
-                    }
-                    if(ent['personne'] != null){
-                        idPerso = ent['personne']['@gefid'];
-                        tabNomPre.push(new Array(ent['personne']['nom'], ent['personne']['prenom']));
-                    }
-                });
-
-                nbP = entite.length;
-            }else{
-                adr = entite['adressegeographique']['libelle']+" "+ entite['adressegeographique']['adresse']+" "+entite['adressegeographique']['cp']+" "+entite['adressegeographique']['ville'];
-                lat = entite['adressegeographique']['latitude'];
-                long = entite['adressegeographique']['longitude'];
-                nbP = 1;
-                if(entite['personne'] != null){
-                    idPerso = entite['personne']['@gefid'];
-                    tabNomPre.push(new Array(entite['personne']['nom'], entite['personne']['prenom']));
+                        nbP = 1;
+                        if(ent['personne'] != null){
+                            idPerso = ent['personne']['gefid'];
+                            tabNomPre.push(new Array(ent['personne']['nom'], ent['personne']['prenom']));
+                        } 
+                        idEnt = ent['siid'];
+                    });
                 }
-
+                var date = new Date();
+                var annee = date.getFullYear();
+                var mois = ('0'+date.getMonth()+1).slice(-2);
+                var jour = ('0'+date.getDate()).slice(-2);
+                var dateNow = annee+"-"+mois+"-"+jour;
+                if(dateF < dateNow){
+                    ajouterContenuTabE(sigle, dateC, "OUI", nbP, lat, long); 
+                    ajouterContenuE(libfr, dateC, dateF, adr, siid, idEnt);
+                }
+                else{
+                    ajouterContenuTabE(sigle, dateC, "NON", nbP, lat, long);
+                    ajouterContenuE(libfr, dateC, dateF, adr, siid, idEnt);
+                }  
             }
-
-            var date = new Date();
-            var annee = date.getFullYear();
-            var mois = ('0'+date.getMonth()+1).slice(-2);
-            var jour = ('0'+date.getDate()).slice(-2);
-            var dateNow = annee+"-"+mois+"-"+jour;
-            if(dateF < dateNow){
-                ajouterContenuTabE(sigle, dateC, "OUI", nbP, lat, long); 
-                ajouterContenuE(libfr, dateC, dateF, adr, siid, idPerso);
-            }
-            else{
-                ajouterContenuTabE(sigle, dateC, "NON", nbP, lat, long);
-                ajouterContenuE(libfr, dateC, dateF, adr, siid, idPerso);
-            }
-            ajouterContenuEqTab(tabNomPre, idPerso);
-
+            ajouterContenuEqTab(tabNomPre, idPerso, siid);
+            tabSiidPrec = new Array(siid);
         });
+        Equipe = data;
         initialiser();
-    }
+    });
 });
 
 function initialiser(centreLat, centreLng, unZoom) {
@@ -88,35 +86,40 @@ function initialiser(centreLat, centreLng, unZoom) {
         zoom: unZoom,
         mapTypeId: google.maps.MapTypeId.ROADMAP
     };
-
+    var tabSiidPrecCarte;
     var carte = new google.maps.Map(document.getElementById("carte"), options);
-    Equipe['structureinria'].forEach(function(ent) {
-        var lib = ent['libellefr'];
-        var lat, long;
-        var entite = ent['entite'];
-        if (entite.length ){
-            entite.forEach(function(ent){
-                if(ent['@principal'] == "1"){
+    Equipe.forEach(function(ent) {
+        if(tabSiidPrecCarte && ent['siid'] != tabSiidPrecCarte[0]){
+            var lib = ent['libellefr'];
+            var lat, long;
+            var entite = ent['entite'];
+            if (entite.length > 1){
+                entite.forEach(function(ent){
+                    if(ent['principal'] != null){
+                        lat = ent['adressegeographique']['latitude'];
+                        long = ent['adressegeographique']['longitude'];
+                    }});
+            }else{
+                entite.forEach(function(ent){
                     lat = ent['adressegeographique']['latitude'];
                     long = ent['adressegeographique']['longitude'];
-                }});
-        }else{
-            lat = entite['adressegeographique']['latitude'];
-            long = entite['adressegeographique']['longitude'];
-        }
-        var marker = new google.maps.Marker({
-            position: new google.maps.LatLng(lat, long),
-            map: carte,
-            title: lib
-        });
+                });
 
-        google.maps.event.addListener(marker,'click',function() {
-            var infowindow = new google.maps.InfoWindow({
-                content:lib
+            }
+            var marker = new google.maps.Marker({
+                position: new google.maps.LatLng(lat, long),
+                map: carte,
+                title: lib
             });
-            infowindow.open(carte,marker);
-        });
 
+            google.maps.event.addListener(marker,'click',function() {
+                var infowindow = new google.maps.InfoWindow({
+                    content:lib
+                });
+                infowindow.open(carte,marker);
+            });
+        }
+        tabSiidPrecCarte = new Array(ent['siid']);  
     });
 
 
@@ -151,15 +154,13 @@ window.eqfeed_callback = function(results) {
 
 
 function ajouterContenuE(libfrE, DateO, DateF, adr, idEq, idP){
-    var nom = "Cazals";
-    var prenom = "Frederic";
     var nbPub = "2";
     var lienClick = "ficheEquipe.html?idEq="+idEq+"&lang=";
-    var stringHTML = "<div class=\"col-6\"><br><h5>"+libfrE+"</h5><p><b>Date ouverture : </b>"+DateO+"  <br><b>Date Fermeture : </b>"+DateF+"<br><b>Adresse :</b> <br> "+adr+" <br><b>Plus d'informations : </b><br><div class=\"row\"><div class=\"col-6\"><a class=\"btn btn-secondary btn-block\" href="+lienClick+"fr"+">FR</a></div><div class=\"col-6\"><a class=\"btn btn-secondary btn-block\" href="+lienClick+"en"+">EN</a></div></div></p><table class=\"table table-responsive table-hover table-bordered  table-sm table-inverse\" style=\"text-align: center; color: white\"><thead><tr><th>Nom</th><th>Prénom</th><th>Nombre de publication</th><th>Rapport</th></tr></thead> <tbody id=\"contenuIComplTabE"+idP+"\"></tbody></table></div>";
+    var stringHTML = "<div class=\"col-6\"><br><h5>"+libfrE+"</h5><p><b>Date ouverture : </b>"+DateO+"  <br><b>Date Fermeture : </b>"+DateF+"<br><b>Adresse :</b> <br> "+adr+" <br><b>Plus d'informations : </b><br><div class=\"row\"><div class=\"col-6\"><a class=\"btn btn-secondary btn-block\" href="+lienClick+"fr"+">FR</a></div><div class=\"col-6\"><a class=\"btn btn-secondary btn-block\" href="+lienClick+"en"+">EN</a></div></div></p><table class=\"table table-responsive table-hover table-bordered  table-sm table-inverse\" style=\"text-align: center; color: white\"><thead><tr><th>Nom</th><th>Prénom</th><th>Nombre de publication</th><th>Rapport</th></tr></thead> <tbody id=\"contenuIComplTabE"+idEq+"\"></tbody></table></div>";
     $('#contenuIComplE').append(stringHTML);
 }
 
-function ajouterContenuEqTab(noms, id){
+function ajouterContenuEqTab(noms, id, idEq){
     var stringHTML = "";
     var nbPub = "2"; //a faire sauter car on veux savoir le nombre de publication total et pas que dans une équipe
     var lienClick = "fichePerso.html?id="+id;
@@ -167,7 +168,7 @@ function ajouterContenuEqTab(noms, id){
         stringHTML += "<tr><th scope=\"row\">"+nom[0]+"</th><td>"+nom[1]+"</td><td>"+nbPub+"</td><td><a style=\"color: white;\" href="+lienClick+">Cliquez ici</a></td></tr>";
     });
 
-    $('#contenuIComplTabE'+id).append(stringHTML);
+    $('#contenuIComplTabE'+idEq).append(stringHTML);
 }
 
 function ajouterContenuTabE(libfrE, dateO, ferm, nbMembE, latE, longE){

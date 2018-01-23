@@ -66,7 +66,7 @@ $( document ).ready(function() {
                     //listId.push(crid);
                     Cris = cr;
                     initialiser(lat, long);
-                    loadChart();
+
                 }
 
 
@@ -93,14 +93,14 @@ function drawChart() {
     data.addColumn('string', 'Topping');
     data.addColumn('number', 'Slices');
     tabTheme.forEach(function(id){
-         data.addRows([[id[1], id[2]]]);
+        data.addRows([[id[1], id[2]]]);
     });
 
 
     // Set chart options
     var options = {'title':'Répartition des themes du Centre de recherche',
-                   
-                     'height':400};
+
+                   'height':400};
 
     // Instantiate and draw our chart, passing in some options.
     var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
@@ -109,38 +109,40 @@ function drawChart() {
 
 var tabTheme = new Array();
 function chargementR(reqE){
-    reqE.onload = function() {
-        //j = j+1;
-        crid = $_GET('idCr');
-        JsEqs = reqE.response;
-        JsEq = JsEqs['structureinria'];
-        JsEqs['structureinria'].forEach(function(eq) {
-            // console.log(eq);
-            if(eq['entite']['@principal'] == "1"){
-                var siid = eq['entite']['adressegeographique']['cri']['@siid'];
-                if(crid == siid){
-                    eq["theme"].forEach(function(th){
-                        if (th["@lang"] == "fr"){
-                            var idTh =  th["@siid"];
-                            var txtTh =  th["#text"];
-                            var estPas = 1;
-                            if(tabTheme.length){
-                                tabTheme.forEach(function(id){
-                                    if(id[0] == idTh){
-                                        id[2] += 1;
-                                        estPas = 0;
-                                    }
-                                });
-                            }
-                            if(estPas == 1){
-                                tabTheme.push(new Array(idTh, txtTh, 1)); 
-                            }
-                        } 
-                    });
-                }
+    crid = $_GET('idCr');
+    var siid;
+    $.get( "http://localhost:8082/api/centres/equipes/total/", function( data ) {
+        $.each(data,function(i, eq ) {
+            eq['entite'].forEach(function(ent){
+                if(ent['principal'] != null){
+                    siid = ent['adressegeographique']['cri']['siid'];
+                }  
+            });
+            if(crid == siid){
+                eq["theme"].forEach(function(th){
+                    console.log(th);
+                    if (th["lang"] == "fr"){
+                        var idTh =  th["siid"];
+                        var txtTh =  th["value"];
+                        var estPas = 1;
+                        if(tabTheme.length){
+                            tabTheme.forEach(function(id){
+                                if(id[0] == idTh){
+                                    id[2] += 1;
+                                    estPas = 0;
+                                }
+                            });
+                        }
+                        if(estPas == 1){
+                            tabTheme.push(new Array(idTh, txtTh, 1)); 
+                        }
+                    } 
+                });
             }
         });
-    }
+        console.log(tabTheme);
+        loadChart();
+    });
 }
 
 function initialiser(centreLat, centreLng, unZoom) {

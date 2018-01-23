@@ -10,6 +10,11 @@ $( document ).ready(function() {
         $( ".result" ).html( data );
         $.each(data,function(i, cris ) {
             $.each(cris,function(i, cr ) {
+                var siid = cr.siid;
+                var idgef = cr.idgef;
+                $.get( "http://localhost:8082/api/centres/equipes/nombre/"+idgef, function( nb ) {
+                    ajouterNbEquipe(siid, nb);
+                });
                 var lib = cr.libelle;
                 var lat = cr.adressegeographique.latitude;
                 var long = cr.adressegeographique.longitude;
@@ -24,61 +29,15 @@ $( document ).ready(function() {
                 ajouterContenuTabCR(lib,lat,long,crid);
                 ajouterContenuCR(crid,lib,dateOuv,adr, dcr,ds,da,vpcp);
                 addInput(crid);
-                //chargementR(requestE)
-                //listId.push(crid);
-
             });
             Cris = cris;
             initialiser();
-            console.log(Cris);
         });
 
     });
-
-    var requestURLquipe = 'bastri.json';
-    var requestE = new XMLHttpRequest();
-    var JsEqs;
-    requestE.open('GET', requestURLquipe);
-    requestE.responseType = 'json';
-    requestE.send();
-
 });
 
-function chargementR(reqE){
-    reqE.onload = function() {
-        j = j+1;
-        crid = recupId();
-        JsEqs = reqE.response;
-        JsEq = JsEqs['structureinria'];
-        JsEqs['structureinria'].forEach(function(cr) {
-            crid.forEach(function(idCr){
-                if (cr['entite'].length ){
-                    cr['entite'].forEach(function(ent) {
-                        var siid = ent['adressegeographique']['cri']['@siid'];
-                        if(siid == idCr){
-                            nbPFonctIdCr(idCr, 1);
-                        } 
-                    });
-                }
-                else{
-                    if(cr['entite']['adressegeographique']['cri']['@siid'] == idCr){
-                        nb = 1;
-                        nbPFonctIdCr(idCr, 1);
-                        nbEFonctIdCr(idCr, 1);
-                    } 
-                }
 
-            });
-
-
-        });
-        listId.forEach(function (ens){
-            ajouterNbPersonne(listP[ens], ens);
-            ajouterNbEquipe(listE[ens], ens);
-        });
-
-    }
-}
 /*var centreLat = 48.854733;
 var centreLng = 2.350879;*/
 
@@ -144,14 +103,14 @@ function ajouterContenuTabCR(libCR, latCr, long, crid){
     var nbE = "0";
     var nbP = "0";
 
-    var stringHTML = "<tr  onclick=\"initialiser("+latCr+", "+long+", 10)\"><th id='"+crid+"' scope=\"row\">"+libCR+"</th>     <td id='nbEq"+crid+"'>"+nbE+"</td><td id='nbPers"+crid+"'>"+nbP+"</td></tr>";
+    var stringHTML = "<tr  onclick=\"initialiser("+latCr+", "+long+", 10)\"><th id='"+crid+"' scope=\"row\">"+libCR+"</th>     <td id='nbEq"+crid+"'>"+nbE+"</td></tr>";
     $('#contenutabCR').append(stringHTML);
 }
-
+/*
 function ajouterNbPersonne( val, id){
     $('#nbPers'+id).get(0).textContent = val;
-}
-function ajouterNbEquipe( val, id){
+}*/
+function ajouterNbEquipe( id, val){
     $('#nbEq'+id).get(0).textContent = val;
 }
 

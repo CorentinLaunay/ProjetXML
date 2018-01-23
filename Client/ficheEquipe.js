@@ -14,7 +14,8 @@ function $_GET(param) {
 }
 
 var identifiant, lang;
-
+var tabSiidPrec;
+var Equipe;
 //var $_GET = $_GET();
 
 //http://mondomaine.tld/?name=geoffrey&age=42
@@ -22,16 +23,11 @@ var identifiant, lang;
 $( document ).ready(function() {
     identifiant = $_GET('idEq');
     lang = $_GET('lang');
-    var requestURLEquipe = 'bastri.json';
-    var requestE = new XMLHttpRequest();
-    requestE.open('GET', requestURLEquipe);
-    requestE.responseType = 'json';
-    requestE.send();
-    requestE.onload = function() {
-        Equipe = requestE.response;
-        Equipe['structureinria'].forEach(function(eq){
-            var siid = eq['@siid'];
-            if (siid == identifiant){
+
+    $.get( "http://localhost:8082/api/centres/equipes/total/", function( data ) {
+        $.each(data,function(i, eq ) {
+            var siid = eq['siid'];
+            if (siid == identifiant && tabSiidPrec && tabSiidPrec[0] != siid){
                 var lib;
                 if(lang == 'fr'){
                     lib = eq['libellefr'];
@@ -39,73 +35,73 @@ $( document ).ready(function() {
                     lib = eq['libelleen'];
                 }
                 var sigle = eq['sigle'];
-                var dateC = eq['date_creation'];
-                var dateF = eq['date_fermeture'];
+                var dateC = eq['dateCreation'];
+                var dateF = eq['dateFermeture'];
                 var typeStr = eq['typestructure'];
                 var domaine = eq['domaine'];
                 var lien;
                 var urlTeam = eq['urlTeam'].forEach(function(url){
-                    if(url['@lang'] == lang){
-                        lien = url['#text'];
+                    if(url['lang'] == lang){
+                        lien = url['value']; //devient value
                     }
                 });
                 var classif, domtext, thtext;
                 domaine.forEach(function(dom){
-                    if(dom['@lang'] == lang){
-                        classif = dom['@classification'];
-                        domtext = dom['#text'];
+                    if(dom['lang'] == lang){
+                        classif = dom['classification'];
+                        domtext = dom['value'];//devient value
                     }
                 });
 
                 eq['theme'].forEach(function(th){
-                    if(th['@lang'] == lang){
-                        thtext = th['#text'];
+                    if(th['lang'] == lang){
+                        thtext = th['value'];//devient value
                     }
                 });
                 var entite = eq['entite'];
                 var nbP, adr, lat, long,lienCr, resum, nomPrinc, prenomPrinc, tabPart = new Array(), tabAs = new Array(), tabAutre = new Array(), tabPersEnPlus = new Array();
-                if (entite.length ){
+                if (entite.length > 1){
                     entite.forEach(function(ent){
-                        if(ent['@principal'] == "1"){
+                        if(ent['principal'] != null){
                             adr = ent['adressegeographique']['libelle']+" "+ ent['adressegeographique']['adresse']+" "+ent['adressegeographique']['cp']+" "+ent['adressegeographique']['ville'];
                             lat = ent['adressegeographique']['latitude'];
                             long = ent['adressegeographique']['longitude'];
-                            lienCr = ent['adressegeographique']['cri']['@siid'];
+                            lienCr = ent['adressegeographique']['cri']['siid'];
                             heb = ent['hebergeur'];
                             nomPrinc = ent['personne']['nom'];
                             prenomPrinc = ent['personne']['prenom'];
-                            if(ent['lien_structure_exterieure']){
-                                if(ent['lien_structure_exterieure'].length){
-                                    ent['lien_structure_exterieure'].forEach(function(lienExt){
-                                        if(lienExt['type_lien'] == 'Partenaire'){
-                                            var libPart = lienExt['structure_exterieure']['libelle']; 
-                                            var typePart = lienExt['structure_exterieure']['type'];
-                                            var dateD = lienExt['date_debut'];
-                                            var dateF = lienExt['date_fin'];
+                            if(ent['lienStructureExterieure']){
+                                if(ent['lienStructureExterieure'].length){
+                                    ent['lienStructureExterieure'].forEach(function(lienExt){
+                                        if(lienExt['typeLien'] == 'Partenaire'){
+                                            var libPart = lienExt['structureExterieure']['libelle']; 
+                                            var typePart = lienExt['structureExterieure']['type'];
+                                            var dateD = lienExt['dateDebut'];
+                                            var dateF = lienExt['dateFin'];
                                             tabPart.push(new Array(libPart, typePart, dateD, dateF));
                                         } 
-                                        else if(lienExt['type_lien'] == 'Associée'){
-                                            var libAs = lienExt['structure_exterieure']['libelle']; 
-                                            var typeAs = lienExt['structure_exterieure']['type'];
-                                            var dateD = lienExt['date_debut'];
-                                            var dateF = lienExt['date_fin'];
+                                        else if(lienExt['typeLien'] == 'Associée'){
+                                            var libAs = lienExt['structureExterieure']['libelle']; 
+                                            var typeAs = lienExt['structureExterieure']['type'];
+                                            var dateD = lienExt['dateDebut'];
+                                            var dateF = lienExt['dateFin'];
                                             var nomDir = 'Inconnu', prenomDir = 'Inconnu';
-                                            if(lienExt['structure_exterieure'][typeAs.toLowerCase()]){
-                                                var infoType = lienExt['structure_exterieure'][typeAs.toLowerCase()];
+                                            if(lienExt['structureExterieure'][typeAs.toLowerCase()]){
+                                                var infoType = lienExt['structureExterieure'][typeAs.toLowerCase()];
                                                 nomDir = infoType['directeur']['nom'];
                                                 prenomDir = infoType['directeur']['prenom'];
 
                                             }
                                             tabAs.push(new Array(libAs, typeAs, dateD, dateF, nomDir, prenomDir));
                                         } 
-                                        else if(lienExt['type_lien'] == '(Non renseigné)'){
-                                            var lib = lienExt['structure_exterieure']['libelle']; 
-                                            var type = lienExt['structure_exterieure']['type'];
-                                            var dateD = lienExt['date_debut'];
-                                            var dateF = lienExt['date_fin'];
+                                        else if(lienExt['typeLien'] == '(Non renseigné)'){
+                                            var lib = lienExt['structureExterieure']['libelle']; 
+                                            var type = lienExt['structureExterieure']['type'];
+                                            var dateD = lienExt['dateDebut'];
+                                            var dateF = lienExt['dateFin'];
                                             var nomDir = 'Inconnu', prenomDir = 'Inconnu';
-                                            if(lienExt['structure_exterieure'][type.toLowerCase()]){
-                                                var infoType = lienExt['structure_exterieure'][type.toLowerCase()];
+                                            if(lienExt['structureExterieure'][type.toLowerCase()]){
+                                                var infoType = lienExt['structureExterieure'][type.toLowerCase()];
                                                 nomDir = infoType['directeur']['nom'];
                                                 prenomDir = infoType['directeur']['prenom'];
                                             }
@@ -113,36 +109,36 @@ $( document ).ready(function() {
                                         }
                                     });
                                 }else{
-                                    var lienExt = ent['lien_structure_exterieure'];
-                                    if(lienExt['type_lien'] == 'Partenaire'){
-                                        var libPart = lienExt['structure_exterieure']['libelle']; 
-                                        var typePart = lienExt['structure_exterieure']['type'];
-                                        var dateD = lienExt['date_debut'];
-                                        var dateF = lienExt['date_fin'];
+                                    var lienExt = ent['lienStructureExterieure'];
+                                    if(lienExt['typeLien'] == 'Partenaire'){
+                                        var libPart = lienExt['structureExterieure']['libelle']; 
+                                        var typePart = lienExt['structureExterieure']['type'];
+                                        var dateD = lienExt['dateDebut'];
+                                        var dateF = lienExt['dateFin'];
                                         tabPart.push(new Array(libPart, typePart, dateD, dateF));
                                     } 
-                                    else if(lienExt['type_lien'] == 'Associée'){
-                                        var libAs = lienExt['structure_exterieure']['libelle']; 
-                                        var typeAs = lienExt['structure_exterieure']['type'];
-                                        var dateD = lienExt['date_debut'];
-                                        var dateF = lienExt['date_fin'];
+                                    else if(lienExt['typeLien'] == 'Associée'){
+                                        var libAs = lienExt['structureExterieure']['libelle']; 
+                                        var typeAs = lienExt['structureExterieure']['type'];
+                                        var dateD = lienExt['dateDebut'];
+                                        var dateF = lienExt['dateFin'];
                                         var nomDir = 'Inconnu', prenomDir = 'Inconnu';
-                                        if(lienExt['structure_exterieure'][typeAs.toLowerCase()]){
-                                            var infoType = lienExt['structure_exterieure'][typeAs.toLowerCase()];
+                                        if(lienExt['structureExterieure'][typeAs.toLowerCase()]){
+                                            var infoType = lienExt['structureExterieure'][typeAs.toLowerCase()];
                                             nomDir = infoType['directeur']['nom'];
                                             prenomDir = infoType['directeur']['prenom'];
 
                                         }
                                         tabAs.push(new Array(libAs, typeAs, dateD, dateF, nomDir, prenomDir));
                                     } 
-                                    else if(lienExt['type_lien'] == '(Non renseigné)'){
-                                        var lib = lienExt['structure_exterieure']['libelle']; 
-                                        var type = lienExt['structure_exterieure']['type'];
-                                        var dateD = lienExt['date_debut'];
-                                        var dateF = lienExt['date_fin'];
+                                    else if(lienExt['typeLien'] == '(Non renseigné)'){
+                                        var lib = lienExt['structureExterieure']['libelle']; 
+                                        var type = lienExt['structureExterieure']['type'];
+                                        var dateD = lienExt['dateDebut'];
+                                        var dateF = lienExt['dateFin'];
                                         var nomDir = 'Inconnu', prenomDir = 'Inconnu';
-                                        if(lienExt['structure_exterieure'][type.toLowerCase()]){
-                                            var infoType = lienExt['structure_exterieure'][type.toLowerCase()];
+                                        if(lienExt['structureExterieure'][type.toLowerCase()]){
+                                            var infoType = lienExt['structureExterieure'][type.toLowerCase()];
                                             nomDir = infoType['directeur']['nom'];
                                             prenomDir = infoType['directeur']['prenom'];
                                         }
@@ -154,43 +150,43 @@ $( document ).ready(function() {
                             var adrP = ent['adressegeographique']['libelle']+" "+ ent['adressegeographique']['adresse']+" "+ent['adressegeographique']['cp']+" "+ent['adressegeographique']['ville'];
                             var latP = ent['adressegeographique']['latitude'];
                             var longP = ent['adressegeographique']['longitude'];
-                            var lienCrP = ent['adressegeographique']['cri']['@siid'];
+                            var lienCrP = ent['adressegeographique']['cri']['siid'];
                             var hebP = ent['hebergeur'];
                             var nomP = ent['personne']['nom'];
                             var prenomP = ent['personne']['prenom'];
                             var tabPartP = new Array(), tabAsP = new Array(), tabAutreP = new Array();
-                            if(ent['lien_structure_exterieure']){
-                                if(ent['lien_structure_exterieure'].length){
-                                    ent['lien_structure_exterieure'].forEach(function(lienExt){
-                                        if(lienExt['type_lien'] == 'Partenaire'){
-                                            var libPart = lienExt['structure_exterieure']['libelle']; 
-                                            var typePart = lienExt['structure_exterieure']['type'];
-                                            var dateD = lienExt['date_debut'];
-                                            var dateF = lienExt['date_fin'];
+                            if(ent['lienStructureExterieure']){
+                                if(ent['lienStructureExterieure'].length){
+                                    ent['lienStructureExterieure'].forEach(function(lienExt){
+                                        if(lienExt['typeLien'] == 'Partenaire'){
+                                            var libPart = lienExt['structureExterieure']['libelle']; 
+                                            var typePart = lienExt['structureExterieure']['type'];
+                                            var dateD = lienExt['dateDebut'];
+                                            var dateF = lienExt['dateFin'];
                                             tabPartP.push(new Array(libPart, typePart, dateD, dateF));
                                         } 
-                                        else if(lienExt['type_lien'] == 'Associée'){
-                                            var libAs = lienExt['structure_exterieure']['libelle']; 
-                                            var typeAs = lienExt['structure_exterieure']['type'];
-                                            var dateD = lienExt['date_debut'];
-                                            var dateF = lienExt['date_fin'];
+                                        else if(lienExt['typeLien'] == 'Associée'){
+                                            var libAs = lienExt['structureExterieure']['libelle']; 
+                                            var typeAs = lienExt['structureExterieure']['type'];
+                                            var dateD = lienExt['dateDebut'];
+                                            var dateF = lienExt['dateFin'];
                                             var nomDir = 'Inconnu', prenomDir = 'Inconnu';
-                                            if(lienExt['structure_exterieure'][typeAs.toLowerCase()]){
-                                                var infoType = lienExt['structure_exterieure'][typeAs.toLowerCase()];
+                                            if(lienExt['structureExterieure'][typeAs.toLowerCase()]){
+                                                var infoType = lienExt['structureExterieure'][typeAs.toLowerCase()];
                                                 nomDir = infoType['directeur']['nom'];
                                                 prenomDir = infoType['directeur']['prenom'];
 
                                             }
                                             tabAsP.push(new Array(libAs, typeAs, dateD, dateF, nomDir, prenomDir));
                                         } 
-                                        else if(lienExt['type_lien'] == '(Non renseigné)'){
-                                            var lib = lienExt['structure_exterieure']['libelle']; 
-                                            var type = lienExt['structure_exterieure']['type'];
-                                            var dateD = lienExt['date_debut'];
-                                            var dateF = lienExt['date_fin'];
+                                        else if(lienExt['typeLien'] == '(Non renseigné)'){
+                                            var lib = lienExt['structureExterieure']['libelle']; 
+                                            var type = lienExt['structureExterieure']['type'];
+                                            var dateD = lienExt['dateDebut'];
+                                            var dateF = lienExt['dateFin'];
                                             var nomDir = 'Inconnu', prenomDir = 'Inconnu';
-                                            if(lienExt['structure_exterieure'][type.toLowerCase()]){
-                                                var infoType = lienExt['structure_exterieure'][type.toLowerCase()];
+                                            if(lienExt['structureExterieure'][type.toLowerCase()]){
+                                                var infoType = lienExt['structureExterieure'][type.toLowerCase()];
                                                 nomDir = infoType['directeur']['nom'];
                                                 prenomDir = infoType['directeur']['prenom'];
                                             }
@@ -198,36 +194,36 @@ $( document ).ready(function() {
                                         }
                                     });
                                 }else{
-                                    var lienExt = ent['lien_structure_exterieure'];
-                                    if(lienExt['type_lien'] == 'Partenaire'){
-                                        var libPart = lienExt['structure_exterieure']['libelle']; 
-                                        var typePart = lienExt['structure_exterieure']['type'];
-                                        var dateD = lienExt['date_debut'];
-                                        var dateF = lienExt['date_fin'];
+                                    var lienExt = ent['lienStructureExterieure'];
+                                    if(lienExt['typeLien'] == 'Partenaire'){
+                                        var libPart = lienExt['structureExterieure']['libelle']; 
+                                        var typePart = lienExt['structureExterieure']['type'];
+                                        var dateD = lienExt['dateDebut'];
+                                        var dateF = lienExt['dateFin'];
                                         tabPartP.push(new Array(libPart, typePart, dateD, dateF));
                                     } 
-                                    else if(lienExt['type_lien'] == 'Associée'){
-                                        var libAs = lienExt['structure_exterieure']['libelle']; 
-                                        var typeAs = lienExt['structure_exterieure']['type'];
-                                        var dateD = lienExt['date_debut'];
-                                        var dateF = lienExt['date_fin'];
+                                    else if(lienExt['typeLien'] == 'Associée'){
+                                        var libAs = lienExt['structureExterieure']['libelle']; 
+                                        var typeAs = lienExt['structureExterieure']['type'];
+                                        var dateD = lienExt['dateDebut'];
+                                        var dateF = lienExt['dateFin'];
                                         var nomDir = 'Inconnu', prenomDir = 'Inconnu';
-                                        if(lienExt['structure_exterieure'][typeAs.toLowerCase()]){
-                                            var infoType = lienExt['structure_exterieure'][typeAs.toLowerCase()];
+                                        if(lienExt['structureExterieure'][typeAs.toLowerCase()]){
+                                            var infoType = lienExt['structureExterieure'][typeAs.toLowerCase()];
                                             nomDir = infoType['directeur']['nom'];
                                             prenomDir = infoType['directeur']['prenom'];
 
                                         }
                                         tabAsP.push(new Array(libAs, typeAs, dateD, dateF, nomDir, prenomDir));
                                     } 
-                                    else if(lienExt['type_lien'] == '(Non renseigné)'){
-                                        var lib = lienExt['structure_exterieure']['libelle']; 
-                                        var type = lienExt['structure_exterieure']['type'];
-                                        var dateD = lienExt['date_debut'];
-                                        var dateF = lienExt['date_fin'];
+                                    else if(lienExt['typeLien'] == '(Non renseigné)'){
+                                        var lib = lienExt['structureExterieure']['libelle']; 
+                                        var type = lienExt['structureExterieure']['type'];
+                                        var dateD = lienExt['dateDebut'];
+                                        var dateF = lienExt['dateFin'];
                                         var nomDir = 'Inconnu', prenomDir = 'Inconnu';
-                                        if(lienExt['structure_exterieure'][type.toLowerCase()]){
-                                            var infoType = lienExt['structure_exterieure'][type.toLowerCase()];
+                                        if(lienExt['structureExterieure'][type.toLowerCase()]){
+                                            var infoType = lienExt['structureExterieure'][type.toLowerCase()];
                                             nomDir = infoType['directeur']['nom'];
                                             prenomDir = infoType['directeur']['prenom'];
                                         }
@@ -242,42 +238,42 @@ $( document ).ready(function() {
                     adr = entite['adressegeographique']['libelle']+" "+ entite['adressegeographique']['adresse']+" "+entite['adressegeographique']['cp']+" "+entite['adressegeographique']['ville'];
                     lat = entite['adressegeographique']['latitude'];
                     long = entite['adressegeographique']['longitude'];
-                    lienCr = entite['adressegeographique']['cri']['@siid'];
+                    lienCr = entite['adressegeographique']['cri']['siid'];
                     heb = entite['hebergeur'];
                     nomPrinc = entite['personne']['nom'];
                     prenomPrinc = entite['personne']['prenom'];
-                    if(entite['lien_structure_exterieure']){
-                        if(entite['lien_structure_exterieure'].length){
-                            entite['lien_structure_exterieure'].forEach(function(lienExt){
-                                if(lienExt['type_lien'] == 'Partenaire'){
-                                    var libPart = lienExt['structure_exterieure']['libelle']; 
-                                    var typePart = lienExt['structure_exterieure']['type'];
-                                    var dateD = lienExt['date_debut'];
-                                    var dateF = lienExt['date_fin'];
+                    if(entite['lienStructureExterieure']){
+                        if(entite['lienStructureExterieure'].length){
+                            entite['lienStructureExterieure'].forEach(function(lienExt){
+                                if(lienExt['typeLien'] == 'Partenaire'){
+                                    var libPart = lienExt['structureExterieure']['libelle']; 
+                                    var typePart = lienExt['structureExterieure']['type'];
+                                    var dateD = lienExt['dateDebut'];
+                                    var dateF = lienExt['dateFin'];
                                     tabPart.push(new Array(libPart, typePart, dateD, dateF));
                                 } 
-                                else if(lienExt['type_lien'] == 'Associée'){
-                                    var libAs = lienExt['structure_exterieure']['libelle']; 
-                                    var typeAs = lienExt['structure_exterieure']['type'];
-                                    var dateD = lienExt['date_debut'];
-                                    var dateF = lienExt['date_fin'];
+                                else if(lienExt['typeLien'] == 'Associée'){
+                                    var libAs = lienExt['structureExterieure']['libelle']; 
+                                    var typeAs = lienExt['structureExterieure']['type'];
+                                    var dateD = lienExt['dateDebut'];
+                                    var dateF = lienExt['dateFin'];
                                     var nomDir = 'Inconnu', prenomDir = 'Inconnu';
-                                    if(lienExt['structure_exterieure'][typeAs.toLowerCase()]){
-                                        var infoType = lienExt['structure_exterieure'][typeAs.toLowerCase()];
+                                    if(lienExt['structureExterieure'][typeAs.toLowerCase()]){
+                                        var infoType = lienExt['structureExterieure'][typeAs.toLowerCase()];
                                         nomDir = infoType['directeur']['nom'];
                                         prenomDir = infoType['directeur']['prenom'];
 
                                     }
                                     tabAs.push(new Array(libAs, typeAs, dateD, dateF, nomDir, prenomDir));
                                 } 
-                                else if(lienExt['type_lien'] == '(Non renseigné)'){
-                                    var lib = lienExt['structure_exterieure']['libelle']; 
-                                    var type = lienExt['structure_exterieure']['type'];
-                                    var dateD = lienExt['date_debut'];
-                                    var dateF = lienExt['date_fin'];
+                                else if(lienExt['typeLien'] == '(Non renseigné)'){
+                                    var lib = lienExt['structureExterieure']['libelle']; 
+                                    var type = lienExt['structureExterieure']['type'];
+                                    var dateD = lienExt['dateDebut'];
+                                    var dateF = lienExt['dateFin'];
                                     var nomDir = 'Inconnu', prenomDir = 'Inconnu';
-                                    if(lienExt['structure_exterieure'][type.toLowerCase()]){
-                                        var infoType = lienExt['structure_exterieure'][type.toLowerCase()];
+                                    if(lienExt['structureExterieure'][type.toLowerCase()]){
+                                        var infoType = lienExt['structureExterieure'][type.toLowerCase()];
                                         nomDir = infoType['directeur']['nom'];
                                         prenomDir = infoType['directeur']['prenom'];
                                     }
@@ -285,36 +281,36 @@ $( document ).ready(function() {
                                 }
                             });
                         }else{
-                            var lienExt = ent['lien_structure_exterieure'];
-                            if(lienExt['type_lien'] == 'Partenaire'){
-                                var libPart = lienExt['structure_exterieure']['libelle']; 
-                                var typePart = lienExt['structure_exterieure']['type'];
-                                var dateD = lienExt['date_debut'];
-                                var dateF = lienExt['date_fin'];
+                            var lienExt = ent['lienStructureExterieure'];
+                            if(lienExt['typeLien'] == 'Partenaire'){
+                                var libPart = lienExt['structureExterieure']['libelle']; 
+                                var typePart = lienExt['structureExterieure']['type'];
+                                var dateD = lienExt['dateDebut'];
+                                var dateF = lienExt['dateFin'];
                                 tabPart.push(new Array(libPart, typePart, dateD, dateF));
                             } 
-                            else if(lienExt['type_lien'] == 'Associée'){
-                                var libAs = lienExt['structure_exterieure']['libelle']; 
-                                var typeAs = lienExt['structure_exterieure']['type'];
-                                var dateD = lienExt['date_debut'];
-                                var dateF = lienExt['date_fin'];
+                            else if(lienExt['typeLien'] == 'Associée'){
+                                var libAs = lienExt['structureExterieure']['libelle']; 
+                                var typeAs = lienExt['structureExterieure']['type'];
+                                var dateD = lienExt['dateDebut'];
+                                var dateF = lienExt['dateFin'];
                                 var nomDir = 'Inconnu', prenomDir = 'Inconnu';
-                                if(lienExt['structure_exterieure'][typeAs.toLowerCase()]){
-                                    var infoType = lienExt['structure_exterieure'][typeAs.toLowerCase()];
+                                if(lienExt['structureExterieure'][typeAs.toLowerCase()]){
+                                    var infoType = lienExt['structureExterieure'][typeAs.toLowerCase()];
                                     nomDir = infoType['directeur']['nom'];
                                     prenomDir = infoType['directeur']['prenom'];
 
                                 }
                                 tabAs.push(new Array(libAs, typeAs, dateD, dateF, nomDir, prenomDir));
                             } 
-                            else if(lienExt['type_lien'] == '(Non renseigné)'){
-                                var lib = lienExt['structure_exterieure']['libelle']; 
-                                var type = lienExt['structure_exterieure']['type'];
-                                var dateD = lienExt['date_debut'];
-                                var dateF = lienExt['date_fin'];
+                            else if(lienExt['typeLien'] == '(Non renseigné)'){
+                                var lib = lienExt['structureExterieure']['libelle']; 
+                                var type = lienExt['structureExterieure']['type'];
+                                var dateD = lienExt['dateDebut'];
+                                var dateF = lienExt['dateFin'];
                                 var nomDir = 'Inconnu', prenomDir = 'Inconnu';
-                                if(lienExt['structure_exterieure'][type.toLowerCase()]){
-                                    var infoType = lienExt['structure_exterieure'][type.toLowerCase()];
+                                if(lienExt['structureExterieure'][type.toLowerCase()]){
+                                    var infoType = lienExt['structureExterieure'][type.toLowerCase()];
                                     nomDir = infoType['directeur']['nom'];
                                     prenomDir = infoType['directeur']['prenom'];
                                 }
@@ -325,9 +321,9 @@ $( document ).ready(function() {
                 }
                 var resume = eq['resume'];
                 resume.forEach(function(res){
-                    if(res['@lang'] == lang){
-                        if(res['#text'] != null){
-                            resum = res['#text'];
+                    if(res['lang'] == lang){
+                        if(res['value'] != null){
+                            resum = res['value'];
                         }   
                     }
 
@@ -342,9 +338,11 @@ $( document ).ready(function() {
                     ajouterPers(tabPersEnPlus);
                 }
             }
+            tabSiidPrec = new Array(siid);
         });
+        Equipe = data;
         initialiser();
-    }
+    });
 });
 
 function initialiser(centreLat, centreLng, unZoom) {
@@ -368,25 +366,23 @@ function initialiser(centreLat, centreLng, unZoom) {
     };
 
     var carte = new google.maps.Map(document.getElementById("carte"), options);
-    Equipe['structureinria'].forEach(function(ent) {
-        var siid = ent['@siid'];
-        if (siid == identifiant){
-            var lib;
-            if(lang == 'fr'){
-                lib = ent['libellefr'];
-            }else{
-                lib = ent['libelleen'];
-            }
+    Equipe.forEach(function(ent) {
+        if(tabSiidPrecCarte && ent['siid'] != tabSiidPrecCarte[0]){
+            var lib = ent['libellefr'];
             var lat, long;
             var entite = ent['entite'];
-            if (entite.length ){
+            if (entite.length > 1){
+                entite.forEach(function(ent){
+                    if(ent['principal'] != null){
+                        lat = ent['adressegeographique']['latitude'];
+                        long = ent['adressegeographique']['longitude'];
+                    }});
+            }else{
                 entite.forEach(function(ent){
                     lat = ent['adressegeographique']['latitude'];
                     long = ent['adressegeographique']['longitude'];
                 });
-            }else{
-                lat = entite['adressegeographique']['latitude'];
-                long = entite['adressegeographique']['longitude'];
+
             }
             var marker = new google.maps.Marker({
                 position: new google.maps.LatLng(lat, long),
@@ -401,6 +397,7 @@ function initialiser(centreLat, centreLng, unZoom) {
                 infowindow.open(carte,marker);
             });
         }
+        tabSiidPrecCarte = new Array(ent['siid']);  
     });
 }
 
