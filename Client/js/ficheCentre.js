@@ -101,7 +101,40 @@ function drawChart() {
     chart.draw(data, options);
 }
 
+function loadChart1(){
+    // Load the Visualization API and the corechart package.
+    google.charts.load('current', {'packages':['corechart']});
+
+    // Set a callback to run when the Google Visualization API is loaded.
+    google.charts.setOnLoadCallback(drawChart1);   
+}
+
+// Callback that creates and populates a data table,
+// instantiates the pie chart, passes in the data and
+// draws it.
+function drawChart1() {
+
+    // Create the data table.
+    var data = new google.visualization.DataTable();
+    data.addColumn('string', 'Topping');
+    data.addColumn('number', 'Slices');
+    tabDom.forEach(function(id){
+        data.addRows([[id[1], id[2]]]);
+    });
+
+
+    // Set chart options
+    var options = {'title':'Répartition des domaines du Centre de recherche',
+
+                   'height':400};
+
+    // Instantiate and draw our chart, passing in some options.
+    var chart = new google.visualization.PieChart(document.getElementById('chart_div1'));
+    chart.draw(data, options);
+}
+
 var tabTheme = new Array();
+var tabDom = new Array();
 function chargementR(){
     crid = $_GET('idCr');
     var siid, siidEq, sigleEq;
@@ -113,7 +146,7 @@ function chargementR(){
                 }  
             });
             if(crid == siid){
-                //console.log(eq);
+                console.log(eq);
                 siidEq = eq.siid;
                 sigleEq = eq.sigle;
                 listerEquipe(siidEq, sigleEq);
@@ -135,10 +168,29 @@ function chargementR(){
                         }
                     } 
                 });
+                eq["domaine"].forEach(function(th){
+                    if (th["lang"] == "fr"){
+                        var idTh =  th["siid"];
+                        var txtTh =  th["value"];
+                        var estPas = 1;
+                        if(tabDom.length){
+                            tabDom.forEach(function(id){
+                                if(id[0] == idTh){
+                                    id[2] += 1;
+                                    estPas = 0;
+                                }
+                            });
+                        }
+                        if(estPas == 1){
+                            tabDom.push(new Array(idTh, txtTh, 1)); 
+                        }
+                    } 
+                });
             }
         });
         //console.log(tabTheme);
         loadChart();
+        loadChart1();
     });
 }
 
