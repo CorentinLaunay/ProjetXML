@@ -4,8 +4,11 @@ var listE = new Array();
 var listId = new Array();
 var tabStat = new Array();
 var j = 0;
-$( document ).ready(function() {
 
+
+$( document ).ready(function() {
+    console.log( "window loaded!!" );
+    var tabSt = new Array();
     $.get( "http://localhost:8082/api/centres/list", function( data ) {
         $( ".result" ).html( data );
         $.each(data,function(i, cris ) {
@@ -15,7 +18,7 @@ $( document ).ready(function() {
                 var lib = cr.libelle;
                 $.get( "http://localhost:8082/api/centres/equipes/nombre/"+idgef, function( nb ) {
                     ajouterNbEquipe(siid, nb);
-                    tabStat.push(new Array(lib, nb));
+                    tabSt.push(new Array(lib, nb));
                 }); 
                 var lat = cr.adressegeographique.latitude;
                 var long = cr.adressegeographique.longitude;
@@ -33,18 +36,18 @@ $( document ).ready(function() {
             });
             Cris = cris;
             initialiser();
-            
+            tabStat = tabSt;
         });
-        //console.log(tabStat);
-        loadChart();
+        tabStat = tabSt;
     });
     
 });
 
-
 /*var centreLat = 48.854733;
 var centreLng = 2.350879;*/
-
+window.setTimeout(function(){
+                 loadChart();    
+                  }, 3000);
 
 
 function initialiser(centreLat, centreLng, unZoom) {
@@ -161,15 +164,17 @@ function loadChart(){
 // draws it.
 function drawChart() {
 
+    console.log(tabStat);
     // Create the data table.
+    
     var data = new google.visualization.DataTable();
     data.addColumn('string', 'Topping');
     data.addColumn('number', 'Slices');
     tabStat.forEach(function(st){
+        console.log(st);
         data.addRows([[st[0], st[1]]]);
     });
-
-
+    
     // Set chart options
     var options = {'title':'Répartition des équipes par Centre de recherche',
 
